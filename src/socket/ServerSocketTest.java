@@ -7,6 +7,8 @@ import java.net.Socket;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 
+import logfile.LogFileWriter;
+
 public class ServerSocketTest extends Thread {
 	
 	public static ServerSocketTest instance;
@@ -18,12 +20,14 @@ public class ServerSocketTest extends Thread {
 	
 	static {
 		instance = new ServerSocketTest();
-		instance.start();
+		//instance.start();
 	}
 
 	boolean isRunning = false;
 	public void run(){
 		try {
+			
+			System.out.println(getTime() + " : Server is ready.");
 			
 			serverSocket = new ServerSocket(PORT);
 	        while(true) {
@@ -70,12 +74,18 @@ public class ServerSocketTest extends Thread {
 	         			continue;
 	         		}
 	         		sb.append(","+read);
+	         		
 	         	}
 	     
 	            isRunning=false;
 	            dInput.close();
 	        } catch (EOFException e){
-	        	System.out.println(sb);
+	        	COORD = sb.toString();
+	        	
+	        	System.out.println("Input : " + COORD);
+	        	
+	        	StaticValue.COORD_LIST.add(COORD);
+	        	
 	        } catch (Exception e) {
 	            e.printStackTrace();
 	        }

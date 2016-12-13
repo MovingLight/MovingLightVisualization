@@ -7,15 +7,18 @@ import java.net.Socket;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 
+import logfile.LogFileWriter;
+
 public class MovingLightServerSocket extends Thread {
 	
-	public static String COORDINATE;
+	public static String COORD;
 	public static ServerSocketTest instance;
 	private ServerSocket serverSocket = null;
 	private StringBuilder sb;
 	
+	private LogFileWriter log;
+	
 	private static int PORT = 5006;
-	public static String COORD;
 	
 	static {
 		instance = new ServerSocketTest();
@@ -59,11 +62,13 @@ public class MovingLightServerSocket extends Thread {
 
 	    public void run() {
 	        try {
+	        	log = new LogFileWriter();
+	        	
 	        	int read = -1;  
 	        	boolean isFirst = true;
 	         	sb = new StringBuilder();
 	        	DataInputStream dInput = new DataInputStream(clientSocket.getInputStream());
-	         	
+	         	int cnt = 0;
 	         	while( ( read = dInput.readInt()) != -1 ) {
 	         		if (isFirst) {
 	         			isFirst = !isFirst;
@@ -72,13 +77,19 @@ public class MovingLightServerSocket extends Thread {
 	         		}
 	         		sb.append(",");
 	         		sb.append(read);
+	         		
+	         		if (cnt == 3) {
+	         			log.fileClose();
+	         		}
+	         		cnt++;
 	         	}
 	     
 	            isRunning=false;
 	            dInput.close();
 	        } catch (EOFException e){
-	        	COORDINATE = sb.toString();
-	        	System.out.println(COORDINATE);
+	        	COORD = sb.toString();
+	        	log.writeLog(COORD);
+	        	System.out.println("Input : " + COORD);
 	        } catch (Exception e) {
 	            e.printStackTrace();
 	        }
