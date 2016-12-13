@@ -7,7 +7,7 @@ import java.net.Socket;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 
-import logfile.LogFileWriter;
+import DB.DBModule;
 
 public class ServerSocketTest extends Thread {
 	
@@ -62,17 +62,27 @@ public class ServerSocketTest extends Thread {
 
 	    public void run() {
 	        try {
-	        	int read = -1;  
+	        	int read = -1; 
+	        	int cnt = 0;
+	        	int person_num = 0;
 	        	boolean isFirst = true;
 	         	sb = new StringBuilder();
 	        	DataInputStream dInput = new DataInputStream(clientSocket.getInputStream());
 	         	
 	         	while( ( read = dInput.readInt()) != -1 ) {
+	         		
 	         		if (isFirst) {
 	         			isFirst = !isFirst;
+	         			person_num = read;
+	         			System.out.println("num : " + person_num);
 	         			sb.append(read);
 	         			continue;
 	         		}
+	         		
+	         		cnt++;
+	         		if ( cnt > person_num*3 ) 
+	         			continue;
+	         		
 	         		sb.append(","+read);
 	         		
 	         	}
@@ -81,10 +91,12 @@ public class ServerSocketTest extends Thread {
 	            dInput.close();
 	        } catch (EOFException e){
 	        	COORD = sb.toString();
-	        	
 	        	System.out.println("Input : " + COORD);
 	        	
+	        	StaticValue.COORD_TIME = System.currentTimeMillis();
 	        	StaticValue.COORD_LIST.add(COORD);
+	        	
+	        	new Thread(new DBModule()).start();
 	        	
 	        } catch (Exception e) {
 	            e.printStackTrace();

@@ -7,6 +7,7 @@ import java.util.Date;
 import javax.servlet.ServletContextEvent;
 import javax.servlet.ServletContextListener;
 
+import DB.DBManager;
 import socket.ServerSocketTest;
 import socket.StaticValue;
 
@@ -16,7 +17,6 @@ import socket.StaticValue;
  */
 public class MyServletContextListner implements ServletContextListener {
 
-	private String startTime;
     /**
      * Default constructor. 
      */
@@ -30,7 +30,10 @@ public class MyServletContextListner implements ServletContextListener {
     public void contextDestroyed(ServletContextEvent arg0)  { 
          // TODO Auto-generated method stub
     	System.out.println("Web Server destroyed.");
+    	StaticValue.END_TIME = new Date(System.currentTimeMillis());
     	logfileWrite();
+    	
+    	DBManager.getInstance().endTest();
     }
 
 	/**
@@ -38,15 +41,18 @@ public class MyServletContextListner implements ServletContextListener {
      */
     public void contextInitialized(ServletContextEvent arg0)  { 
          // TODO Auto-generated method stub
-    	ServerSocketTest.instance.start();
-    	startTime = getTime();
     	System.out.println("Web Server initiated.");
+    	
+    	ServerSocketTest.instance.start();
+    	StaticValue.START_TIME = new Date(System.currentTimeMillis());
+    	
+    	DBManager.getInstance().insertTest();
     }
     
     public void logfileWrite() {
     	
     	try {
-        	PrintWriter pw = new PrintWriter("C:\\Users\\HP15FHD\\Desktop\\MovingLight\\logs\\VA_log_" + startTime + ".txt");
+        	PrintWriter pw = new PrintWriter("C:\\Users\\HP15FHD\\Desktop\\MovingLight\\logs\\VA_log_TEST_" + getTime() + ".txt");
         	for(String log : StaticValue.COORD_LIST) {
         		pw.println(log);
         	}
@@ -56,8 +62,8 @@ public class MyServletContextListner implements ServletContextListener {
     }
     
     public String getTime(){
-        SimpleDateFormat f = new SimpleDateFormat("yyyy-MM-dd_HH-mm-ss"); 
-        return f.format(new Date());
+        SimpleDateFormat f = new SimpleDateFormat("yyyyMMdd_HHmmss"); 
+        return f.format(StaticValue.START_TIME);
     }	
 	
 }
