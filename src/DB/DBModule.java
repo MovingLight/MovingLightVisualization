@@ -8,7 +8,8 @@ public class DBModule extends Thread {
 	
 	public void run(){
 		
-		System.out.println("DBModule Thread Start");
+		// ClientSocket으로부터의 좌표 값을 DB에 저장
+		//System.out.println("DBModule Thread Start");
 		DBManager mgr = DBManager.getInstance();
 		mgr.insertCoords(ServerSocketTest.COORD);
 

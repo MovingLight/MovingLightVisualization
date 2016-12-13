@@ -27,7 +27,7 @@ public class DBManager {
 	
 	public int insertCoords(String coords) {
 		
-		System.out.println("DBManager Insert : " + coords);
+		//System.out.println("DBManager Insert : " + coords);
 		
 		int cnt=0;
 		int val=0;

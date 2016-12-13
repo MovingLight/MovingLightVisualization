@@ -26,7 +26,7 @@ public class CoordsDAO {
 	
 	public int insertCoord(String testId, int pId, int x, int y, Timestamp c_time) {
 		
-		System.out.println("ENT_TEST : " + testId + " / " + pId + " / " + x + " / " + y + " / " + c_time);
+		System.out.println("INSERT COORD to DB : " + testId + " / " + pId + " / " + x + " / " + y + " / " + c_time);
 		
 		PreparedStatement pstmt=null;
 		int row = 0; 

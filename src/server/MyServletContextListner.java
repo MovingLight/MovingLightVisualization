@@ -28,11 +28,15 @@ public class MyServletContextListner implements ServletContextListener {
      * @see ServletContextListener#contextDestroyed(ServletContextEvent)
      */
     public void contextDestroyed(ServletContextEvent arg0)  { 
-         // TODO Auto-generated method stub
-    	System.out.println("Web Server destroyed.");
+    	
+    	// Set server END_TIME
     	StaticValue.END_TIME = new Date(System.currentTimeMillis());
+    	System.out.println(new SimpleDateFormat("[yyyy-MM-dd hh:mm:ss]").format(StaticValue.END_TIME) + " : Web Server destroyed.");
+    	
+    	// Log File write
     	logfileWrite();
     	
+    	// Update server END_TIME to DataBase.
     	DBManager.getInstance().endTest();
     }
 
@@ -40,20 +44,24 @@ public class MyServletContextListner implements ServletContextListener {
      * @see ServletContextListener#contextInitialized(ServletContextEvent)
      */
     public void contextInitialized(ServletContextEvent arg0)  { 
-         // TODO Auto-generated method stub
     	System.out.println("Web Server initiated.");
     	
+    	// Initiate and Launch the ServerSocket
     	ServerSocketTest.instance.start();
+    	// Set server START_TIME
     	StaticValue.START_TIME = new Date(System.currentTimeMillis());
     	
+    	// Insert the server START_TIME and TEST_ID to DataBase.
     	DBManager.getInstance().insertTest();
     }
     
     public void logfileWrite() {
     	
     	try {
+    		// Get home Dir path on your device.
     		String sys = System.getProperty("user.home");
         	PrintWriter pw = new PrintWriter(sys + "\\Desktop\\MovingLight\\logs\\VA_log_TEST_" + getTime() + ".txt");
+        	// LogFile Write from StaticValue.COORD_LIST
         	for(String log : StaticValue.COORD_LIST) {
         		pw.println(log);
         	}
