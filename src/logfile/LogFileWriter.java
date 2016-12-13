@@ -36,7 +36,7 @@ public class LogFileWriter {
 		LogFileWriter lf = new LogFileWriter();
         //PrintWriter pw = new PrintWriter("c:/out.txt");
         for(int i=1; i<11; i++) {
-            String data = i+" ¹øÂ° ÁÙÀÔ´Ï´Ù.";
+            String data = i+" ï¿½ï¿½Â° ï¿½ï¿½ï¿½Ô´Ï´ï¿½.";
             lf.pw.println(data);
         }
         lf.pw.close();

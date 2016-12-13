@@ -7,6 +7,8 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
+import socket.ServerSocketTest;
+
 /**
  * Servlet implementation class TestServlet
  */
@@ -20,7 +22,8 @@ public class TestServlet extends HttpServlet {
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		// TODO Auto-generated method stub
 		//response.getWriter().printf(CoordinateServerSocket.COORD + "");
-		response.getWriter().printf("");
+		System.out.println("data-"+ServerSocketTest.COORD);
+		response.getWriter().printf(ServerSocketTest.COORD);
 	}
 
 }
