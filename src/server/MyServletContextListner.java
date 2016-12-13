@@ -52,7 +52,8 @@ public class MyServletContextListner implements ServletContextListener {
     public void logfileWrite() {
     	
     	try {
-        	PrintWriter pw = new PrintWriter("C:\\Users\\HP15FHD\\Desktop\\MovingLight\\logs\\VA_log_TEST_" + getTime() + ".txt");
+    		String sys = System.getProperty("user.home");
+        	PrintWriter pw = new PrintWriter(sys + "\\Desktop\\MovingLight\\logs\\VA_log_TEST_" + getTime() + ".txt");
         	for(String log : StaticValue.COORD_LIST) {
         		pw.println(log);
         	}
