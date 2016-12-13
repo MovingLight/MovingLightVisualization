@@ -1,0 +1,168 @@
+<!DOCTYPE html>
+<html>
+
+
+<head>
+<meta charset="UTF-8">
+<title>Insert title here</title>
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.2/jquery.min.js"></script>
+<style>
+	body {
+		width: 1000px;
+  		margin: 0 auto;
+	}
+	#canvas {
+		margin-top: 50px;
+		margin-left: 0px;
+		margin-right: 0px;
+		padding: 0;
+		overflow:hidden;
+		position:relative;
+		width:1000px;
+		height:400px;
+		border:#999999 1px solid;
+	}
+</style>
+<script type="text/JavaScript" src="lib/jsDraw2D.js"></script>
+</head>
+
+
+<body>
+
+<div id="canvas"></div>
+
+<br><br><br><br>
+
+<script type="text/javascript">
+
+	var canvasWidth = $('#canvas').outerWidth(true);
+	
+    var realSize = prompt("가로/세로 값을 미터(m) 단위로 입력하세요.(가로/세로)", "");
+    if (realSize != null) {
+    	var input = realSize.split("/");
+    	var canvasHeight = input[1] * canvasWidth / input[0];
+    	$('#canvas').css('height', canvasHeight+'px');
+    	initCanvas(canvasWidth/2, canvasHeight/2, input[0]/2);
+    }
+    var gr;
+    
+    window.onload=function(){
+   	 var canvas = document.getElementById('mycanvas');
+   		setInterval(function(){ 
+   			$.ajax({
+   				url:"test",
+   				type: "get",
+   				success : function(data) {
+   					if (data) {
+   						var id1 = data.split(",")[0];
+   						var x1 = data.split(",")[1];
+   						var y1 = data.split(",")[2];
+   						
+   						var id2 = data.split(",")[3];
+   						var x2 = data.split(",")[4];
+   						var y2 = data.split(",")[5];
+   						//ctx.fillRect(parseInt(data.split(",")[0]) , parseInt(data.split(",")[1]) , 2.8, 4);
+   						//alert(x + ", " + y);
+   						drawCoordinate(id1, x1*100, y1*100);
+   						drawCoordinate(id2, x2*100, y2*100);
+   					}
+   			     }
+   			})
+   		}, 500);
+    }
+    
+    var font=new jsFont("arial","bold","12px");
+    function initCanvas(w, h, realX) {	
+    	var range = w/realX;
+        
+    	gr=new jsGraphics(document.getElementById("canvas"));
+		// init Canvas
+        gr.setOrigin(new jsPoint(w, h)); 
+        gr.setCoordinateSystem("cartecian"); 
+        gr.showGrid(range, false);	
+        
+        // mark center "0"
+        gr.drawText("0",new jsPoint(0,0),font, new jsColor("gray"));
+        
+        
+        //var position1 = new jsPoint(0,0);
+        //var position2 = new jsPoint(50,50);
+        //gr.fillCircle(new jsColor("black"), position1, 4);
+        //gr.fillCircle(new jsColor("black"), position2, 4);
+       
+        //gr.drawLine(new jsPen(new jsColor("green"), 2), position1, position2);
+        
+        
+        //gr.fillRectangle(new jsColor("green"),new jsPoint(0,0),1,1);
+    	//points[points.length]=new jsPoint(mouseX-3,mouseY-3);
+    }
+    
+    var position1;
+    function drawCoordinate(id, x, y) {
+    	
+    	//alert(x + ", " + y); 
+    	// draw Coordinate
+    	
+    	if (id == 1) {
+    		position1 = new jsPoint(x,y);
+        	gr.fillCircle(new jsColor("blue"), position1, 4);
+    	} else if (id == 2) {
+    		position1 = new jsPoint(x,y);
+        	gr.fillCircle(new jsColor("green"), position1, 4);
+    	}
+    	
+    
+    	
+    	
+    	//gr.drawText("("+x+","+y+")",new jsPoint(x+10,0),font, new jsColor("gray"));
+    	
+    }
+   
+
+
+    
+    //var redPen=new jsPen(new jsColor("red"),1);
+    //var greenPen=new jsPen(new jsColor("green"),1);
+    //var bluePen=new jsPen(new jsColor("blue"),1);
+
+    //var curvePoints=new Array(new jsPoint(28,35),new jsPoint(52,16),new jsPoint(177,38),new jsPoint(149,85),new jsPoint(57,92)); 
+    //var bezierPoints=new Array(new jsPoint(-283,10),new jsPoint(-206,95),new jsPoint(-24,90),new jsPoint(-56,10));
+    //var closedCurvePoints=new Array(new jsPoint(-265,-50),new jsPoint(-68,-23),new jsPoint(-114,-50),new jsPoint(-58,-95));
+    //var polyPoints=new Array(new jsPoint(160,-50),new jsPoint(190,-80),new jsPoint(240,-15),new jsPoint(260,-67));
+
+
+    //gr.setOrigin(new jsPoint(canvasWidth/2, 200)); 
+    //gr.setCoordinateSystem("cartecian"); 
+    //gr.showGrid(20);
+
+    //plotPoints(curvePoints); 
+    //plotPoints(bezierPoints); 
+
+    //gr.drawCurve(bluePen,curvePoints);
+    //gr.drawBezier(bluePen,bezierPoints); 
+    //gr.fillClosedCurve(redPen.color,closedCurvePoints);
+
+    //gr.drawLine(greenPen,new jsPoint(25,-25),new jsPoint(80,-80)); 
+    //gr.fillEllipse(new jsColor("aqua"),new jsPoint(100,-55),50,30);                 
+    //gr.drawPolygon(redPen,polyPoints); 
+
+    //var font=new jsFont("arial","bold","12px");
+    //gr.drawText("Curve passing through given points.",new jsPoint(200,80),font,bluePen.color,90); 
+    //gr.drawText("Cubic Bezier curve.",new jsPoint(-220,40),font,bluePen.color,110);
+    //gr.drawText("Filled, closed curve.",new jsPoint(-60,-25),font,bluePen.color,60);
+    //gr.drawText("Basic drawing (line, ellipse, polygon).",new jsPoint(25,-80),font,bluePen.color);
+
+    
+    //plotPoints(closedCurvePoints);
+    /*
+    function plotPoints(points) 
+    { 
+        for( i in points) 
+        { 
+            gr.fillRectangle(new jsColor("green"),new jsPoint(points[i].x-2,points[i].y+2),4,4);
+        }
+    }*/
+</script>
+
+</body>
+</html>
