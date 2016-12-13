@@ -16,7 +16,7 @@ import socket.StaticValue;
  */
 public class MyServletContextListner implements ServletContextListener {
 
-	
+	private String startTime;
     /**
      * Default constructor. 
      */
@@ -29,6 +29,7 @@ public class MyServletContextListner implements ServletContextListener {
      */
     public void contextDestroyed(ServletContextEvent arg0)  { 
          // TODO Auto-generated method stub
+    	System.out.println("Web Server destroyed.");
     	logfileWrite();
     }
 
@@ -38,12 +39,14 @@ public class MyServletContextListner implements ServletContextListener {
     public void contextInitialized(ServletContextEvent arg0)  { 
          // TODO Auto-generated method stub
     	ServerSocketTest.instance.start();
+    	startTime = getTime();
+    	System.out.println("Web Server initiated.");
     }
     
     public void logfileWrite() {
     	
     	try {
-        	PrintWriter pw = new PrintWriter("C:\\Users\\HP15FHD\\Desktop\\MovingLight\\logs\\VA_log_" + getTime() + ".txt");
+        	PrintWriter pw = new PrintWriter("C:\\Users\\HP15FHD\\Desktop\\MovingLight\\logs\\VA_log_" + startTime + ".txt");
         	for(String log : StaticValue.COORD_LIST) {
         		pw.println(log);
         	}
@@ -52,7 +55,7 @@ public class MyServletContextListner implements ServletContextListener {
     	} catch (Exception e) {}
     }
     
-    public static String getTime(){
+    public String getTime(){
         SimpleDateFormat f = new SimpleDateFormat("yyyy-MM-dd_HH-mm-ss"); 
         return f.format(new Date());
     }	
