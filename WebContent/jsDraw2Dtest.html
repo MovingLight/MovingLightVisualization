@@ -34,8 +34,14 @@
 <br><br><br><br>
 
 <script type="text/javascript">
-	var eventQueueX=[][], // 첫번째 첨자 : 사람 / 두번째 첨자 : x의 데이터 인덱스
-		eventQueueY=[][],// 첫번째 첨자 : 사람 / 두번째 첨자 : y의 데이터 인덱스
+	var eventQueueX=[] ,//, // 첫번째 첨자 : 사람 / 두번째 첨자 : x의 데이터 인덱스
+		eventQueueY=[] ,
+		eventQueueX2=[],
+		eventQueueY2=[],
+		eventQueueX3=[],
+		eventQueueY3=[],
+		eventQueueX4=[],
+		eventQueueY4=[],// 첫번째 첨자 : 사람 / 두번째 첨자 : y의 데이터 인덱스
 		maxData=20, // 최대 저장 가능한 데이터 갯수.
 		dataIndex=0, //현재 데이터 index.
 		personNo=0, // 사람 수.
@@ -58,6 +64,7 @@
     
     window.onload=function(){
    	 var canvas = document.getElementById('mycanvas');
+   	 
    		setInterval(function(){ 
    			$.ajax({
    				url:"test",
@@ -69,9 +76,8 @@
    							id[i-1]=data.split(",")[3*i-2]; // 3n-2
    							x = data.split(",")[3*i-1]; // 3n-1
    							y = data.split(",")[3*i]; // 3n
-   							eventQueueX[i-1][dataIndex++%maxData]= x ;
-   							eventQueueY[i-1][dataIndex++%maxData]= y ;
    							
+   							insertEventQueue(i,x,y,dataIndex++%maxData);
    							drawCoordinate(id[i-1], x*100, y*100);
    						} // for문 종료.
    					} //if문 종료.
@@ -80,8 +86,29 @@
    		}, 500);
    		
     }
-    
+    function insertEventQueue(no , xv , yv ,index) {//dataIndex++%maxData
+    	
+    	switch(no) {
+    	case 0 : 
+    		eventQueueX[index]= xv ;
+    		eventQueueY[index]= yv ;
+    		break;
+    	case 1 :
+    		eventQueueX2[index]= xv ;
+    		eventQueueY2[index]= yv ;
+    		break;
+    	case 2 :
+    		eventQueueX3[index]= xv ;
+    		eventQueueY3[index]= yv ;
+    		break;
+    	case 3 :
+    		eventQueueX4[index]= xv ;
+    		eventQueueY4[index]= yv ;
+    		break;
+    	}
+    }
     var font=new jsFont("arial","bold","12px");
+    
     function initCanvas(w, h, realX) {	
     	var range = w/realX;
         
