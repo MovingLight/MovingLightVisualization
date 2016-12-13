@@ -7,9 +7,8 @@ import java.net.Socket;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 
-public class MovingLightServerSocket extends Thread {
+public class ServerSocketTest extends Thread {
 	
-	public static String COORDINATE;
 	public static ServerSocketTest instance;
 	private ServerSocket serverSocket = null;
 	private StringBuilder sb;
@@ -70,15 +69,13 @@ public class MovingLightServerSocket extends Thread {
 	         			sb.append(read);
 	         			continue;
 	         		}
-	         		sb.append(",");
-	         		sb.append(read);
+	         		sb.append(","+read);
 	         	}
 	     
 	            isRunning=false;
 	            dInput.close();
 	        } catch (EOFException e){
-	        	COORDINATE = sb.toString();
-	        	System.out.println(COORDINATE);
+	        	System.out.println(sb);
 	        } catch (Exception e) {
 	            e.printStackTrace();
 	        }
