@@ -7,8 +7,6 @@ import java.net.Socket;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 
-import logfile.LogFileWriter;
-
 public class ServerSocketTest extends Thread {
 	
 	public static ServerSocketTest instance;

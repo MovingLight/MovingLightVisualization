@@ -7,8 +7,6 @@ import java.net.Socket;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 
-import logfile.LogFileWriter;
-
 public class MovingLightServerSocket extends Thread {
 	
 	public static String COORD;
@@ -16,7 +14,7 @@ public class MovingLightServerSocket extends Thread {
 	private ServerSocket serverSocket = null;
 	private StringBuilder sb;
 	
-	private LogFileWriter log;
+	//private LogFileWriter log;
 	
 	private static int PORT = 5006;
 	
@@ -62,7 +60,7 @@ public class MovingLightServerSocket extends Thread {
 
 	    public void run() {
 	        try {
-	        	log = new LogFileWriter();
+	        	//log = new LogFileWriter();
 	        	
 	        	int read = -1;  
 	        	boolean isFirst = true;
@@ -79,7 +77,7 @@ public class MovingLightServerSocket extends Thread {
 	         		sb.append(read);
 	         		
 	         		if (cnt == 3) {
-	         			log.fileClose();
+	         			//log.fileClose();
 	         		}
 	         		cnt++;
 	         	}
@@ -88,7 +86,7 @@ public class MovingLightServerSocket extends Thread {
 	            dInput.close();
 	        } catch (EOFException e){
 	        	COORD = sb.toString();
-	        	log.writeLog(COORD);
+	        	//log.writeLog(COORD);
 	        	System.out.println("Input : " + COORD);
 	        } catch (Exception e) {
 	            e.printStackTrace();
