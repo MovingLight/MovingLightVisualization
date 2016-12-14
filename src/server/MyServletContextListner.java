@@ -7,6 +7,7 @@ import java.util.Date;
 import javax.servlet.ServletContextEvent;
 import javax.servlet.ServletContextListener;
 
+import DB.DBManager;
 import socket.ServerSocketTest;
 import socket.StaticValue;
 
@@ -16,7 +17,6 @@ import socket.StaticValue;
  */
 public class MyServletContextListner implements ServletContextListener {
 
-	private String startTime;
     /**
      * Default constructor. 
      */
@@ -28,25 +28,40 @@ public class MyServletContextListner implements ServletContextListener {
      * @see ServletContextListener#contextDestroyed(ServletContextEvent)
      */
     public void contextDestroyed(ServletContextEvent arg0)  { 
-         // TODO Auto-generated method stub
-    	System.out.println("Web Server destroyed.");
+    	
+    	// Set server END_TIME
+    	StaticValue.END_TIME = new Date(System.currentTimeMillis());
+    	System.out.println(new SimpleDateFormat("[yyyy-MM-dd hh:mm:ss]").format(StaticValue.END_TIME) + " : Web Server destroyed.");
+    	
+    	// Log File write
     	logfileWrite();
+    	
+    	// Update server END_TIME to DataBase.
+    	DBManager.getInstance().endTest();
     }
 
 	/**
      * @see ServletContextListener#contextInitialized(ServletContextEvent)
      */
     public void contextInitialized(ServletContextEvent arg0)  { 
-         // TODO Auto-generated method stub
-    	ServerSocketTest.instance.start();
-    	startTime = getTime();
     	System.out.println("Web Server initiated.");
+    	
+    	// Initiate and Launch the ServerSocket
+    	ServerSocketTest.instance.start();
+    	// Set server START_TIME
+    	StaticValue.START_TIME = new Date(System.currentTimeMillis());
+    	
+    	// Insert the server START_TIME and TEST_ID to DataBase.
+    	DBManager.getInstance().insertTest();
     }
     
     public void logfileWrite() {
     	
     	try {
-        	PrintWriter pw = new PrintWriter("C:\\Users\\HP15FHD\\Desktop\\MovingLight\\logs\\VA_log_" + startTime + ".txt");
+    		// Get home Dir path on your device.
+    		String sys = System.getProperty("user.home");
+        	PrintWriter pw = new PrintWriter(sys + "\\Desktop\\MovingLight\\logs\\VA_log_TEST_" + getTime() + ".txt");
+        	// LogFile Write from StaticValue.COORD_LIST
         	for(String log : StaticValue.COORD_LIST) {
         		pw.println(log);
         	}
@@ -56,8 +71,8 @@ public class MyServletContextListner implements ServletContextListener {
     }
     
     public String getTime(){
-        SimpleDateFormat f = new SimpleDateFormat("yyyy-MM-dd_HH-mm-ss"); 
-        return f.format(new Date());
+        SimpleDateFormat f = new SimpleDateFormat("yyyyMMdd_HHmmss"); 
+        return f.format(StaticValue.START_TIME);
     }	
 	
 }

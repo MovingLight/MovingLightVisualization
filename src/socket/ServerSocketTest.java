@@ -7,6 +7,9 @@ import java.net.Socket;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 
+
+import DB.DBModule;
+
 public class ServerSocketTest extends Thread {
 	
 	public static ServerSocketTest instance;
@@ -25,13 +28,13 @@ public class ServerSocketTest extends Thread {
 	public void run(){
 		try {
 			
-			System.out.println(getTime() + " : Server is ready.");
+			System.out.println(getTime() + " : Socket Server is ready.");
 			
 			serverSocket = new ServerSocket(PORT);
 	        while(true) {
 	        	if(!isRunning) {
 	        		new Thread(new WorkerRunnable(newSocket())).start();
-	        		System.out.println(getTime() + " : New Client Binded.");
+	        		System.out.println("--------------------------------------------------\n" + getTime() + " : New Data from Client.");
 	        	}
 	        }
 	       
@@ -60,29 +63,51 @@ public class ServerSocketTest extends Thread {
 
 	    public void run() {
 	        try {
-	        	int read = -1;  
+	        	int read = -1; 
+	        	int cnt=0, person_num=0;
 	        	boolean isFirst = true;
-	         	sb = new StringBuilder();
+	         	sb = new StringBuilder(); // ClientSocket���κ����� Data�� Append �Ͽ� ����. 
 	        	DataInputStream dInput = new DataInputStream(clientSocket.getInputStream());
 	         	
+	        	// ClientSocket���κ����� Data�� Integer(4 Bytes) ������ ���� ����
 	         	while( ( read = dInput.readInt()) != -1 ) {
+	         		
+	         		// ù��° Data = ������ ��
 	         		if (isFirst) {
 	         			isFirst = !isFirst;
+	         			// ������ �� ����
+	         			person_num = read; 
+	         			// ClientSocket���κ����� ������ �� Data�� Append.
 	         			sb.append(read);
 	         			continue;
 	         		}
+	         		cnt++;
+	         		// ������ �� ��ŭ Data�� �о���� ���, ���̻� ���� �ʵ����Ѵ�. 
+	         		if ( cnt > person_num*3 ) 
+	         			continue;
+	         		
+	         		// ClientSocket���κ����� ��ǥ�� Data�� Append.
 	         		sb.append(","+read);
 	         		
 	         	}
 	     
 	            isRunning=false;
 	            dInput.close();
-	        } catch (EOFException e){
+	        } 
+	        // ClientSocket���κ����� ��ǥ �� �б� �Ϸ�
+	        catch (EOFException e){
+	        	// COORD�� ClientSocket���κ����� ��ǥ �� ����
 	        	COORD = sb.toString();
+	        	System.out.println("DATA : " + COORD);
 	        	
-	        	System.out.println("Input : " + COORD);
-	        	
+	        	// ClientSocket���κ����� ��ǥ �� �����ð�
+	        	StaticValue.COORD_TIME = System.currentTimeMillis();
+	        	// COORD_LIST�� ClientSocket���κ����� ��ǥ �� Add
 	        	StaticValue.COORD_LIST.add(COORD);
+	        	
+	        	// ClientSocket���κ����� ��ǥ ����
+	        	//  DB�� �����ϴ� Thread ����
+	        	new Thread(new DBModule()).start();
 	        	
 	        } catch (Exception e) {
 	            e.printStackTrace();
