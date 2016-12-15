@@ -7,6 +7,7 @@ import java.net.Socket;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 
+
 import DB.DBModule;
 
 public class ServerSocketTest extends Thread {
@@ -65,27 +66,27 @@ public class ServerSocketTest extends Thread {
 	        	int read = -1; 
 	        	int cnt=0, person_num=0;
 	        	boolean isFirst = true;
-	         	sb = new StringBuilder(); // ClientSocketÀ¸·ÎºÎÅÍÀÇ Data¸¦ Append ÇÏ¿© ÀúÀå. 
+	         	sb = new StringBuilder(); // ClientSocketï¿½ï¿½ï¿½Îºï¿½ï¿½ï¿½ï¿½ï¿½ Dataï¿½ï¿½ Append ï¿½Ï¿ï¿½ ï¿½ï¿½ï¿½ï¿½. 
 	        	DataInputStream dInput = new DataInputStream(clientSocket.getInputStream());
 	         	
-	        	// ClientSocketÀ¸·ÎºÎÅÍÀÇ Data¸¦ Integer(4 Bytes) ´ÜÀ§·Î ²÷¾î ÀÐÀ½
+	        	// ClientSocketï¿½ï¿½ï¿½Îºï¿½ï¿½ï¿½ï¿½ï¿½ Dataï¿½ï¿½ Integer(4 Bytes) ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½
 	         	while( ( read = dInput.readInt()) != -1 ) {
 	         		
-	         		// Ã¹¹øÂ° Data = °ø¿¬ÀÚ ¼ö
+	         		// Ã¹ï¿½ï¿½Â° Data = ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½
 	         		if (isFirst) {
 	         			isFirst = !isFirst;
-	         			// °ø¿¬ÀÚ ¼ö ¼¼ÆÃ
+	         			// ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½
 	         			person_num = read; 
-	         			// ClientSocketÀ¸·ÎºÎÅÍÀÇ °ø¿¬ÀÚ ¼ö Data¸¦ Append.
+	         			// ClientSocketï¿½ï¿½ï¿½Îºï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ Dataï¿½ï¿½ Append.
 	         			sb.append(read);
 	         			continue;
 	         		}
 	         		cnt++;
-	         		// °ø¿¬ÀÚ ¼ö ¸¸Å­ Data¸¦ ÀÐ¾î¿ÔÀ» °æ¿ì, ´õÀÌ»ó ÀÐÁö ¾Êµµ·ÏÇÑ´Ù. 
+	         		// ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ ï¿½ï¿½Å­ Dataï¿½ï¿½ ï¿½Ð¾ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½, ï¿½ï¿½ï¿½Ì»ï¿½ ï¿½ï¿½ï¿½ï¿½ ï¿½Êµï¿½ï¿½ï¿½ï¿½Ñ´ï¿½. 
 	         		if ( cnt > person_num*3 ) 
 	         			continue;
 	         		
-	         		// ClientSocketÀ¸·ÎºÎÅÍÀÇ ÁÂÇ¥°ª Data¸¦ Append.
+	         		// ClientSocketï¿½ï¿½ï¿½Îºï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½Ç¥ï¿½ï¿½ Dataï¿½ï¿½ Append.
 	         		sb.append(","+read);
 	         		
 	         	}
@@ -93,19 +94,19 @@ public class ServerSocketTest extends Thread {
 	            isRunning=false;
 	            dInput.close();
 	        } 
-	        // ClientSocketÀ¸·ÎºÎÅÍÀÇ ÁÂÇ¥ °ª ÀÐ±â ¿Ï·á
+	        // ClientSocketï¿½ï¿½ï¿½Îºï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½Ç¥ ï¿½ï¿½ ï¿½Ð±ï¿½ ï¿½Ï·ï¿½
 	        catch (EOFException e){
-	        	// COORD¿¡ ClientSocketÀ¸·ÎºÎÅÍÀÇ ÁÂÇ¥ °ª ´ëÀÔ
+	        	// COORDï¿½ï¿½ ClientSocketï¿½ï¿½ï¿½Îºï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½Ç¥ ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½
 	        	COORD = sb.toString();
 	        	System.out.println("DATA : " + COORD);
 	        	
-	        	// ClientSocketÀ¸·ÎºÎÅÍÀÇ ÁÂÇ¥ °ª µµÂø½Ã°£
+	        	// ClientSocketï¿½ï¿½ï¿½Îºï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½Ç¥ ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½Ã°ï¿½
 	        	StaticValue.COORD_TIME = System.currentTimeMillis();
-	        	// COORD_LIST¿¡ ClientSocketÀ¸·ÎºÎÅÍÀÇ ÁÂÇ¥ °ª Add
+	        	// COORD_LISTï¿½ï¿½ ClientSocketï¿½ï¿½ï¿½Îºï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½Ç¥ ï¿½ï¿½ Add
 	        	StaticValue.COORD_LIST.add(COORD);
 	        	
-	        	// ClientSocketÀ¸·ÎºÎÅÍÀÇ ÁÂÇ¥ °ªÀ»
-	        	//  DB¿¡ ÀúÀåÇÏ´Â Thread µ¿ÀÛ
+	        	// ClientSocketï¿½ï¿½ï¿½Îºï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½Ç¥ ï¿½ï¿½ï¿½ï¿½
+	        	//  DBï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½Ï´ï¿½ Thread ï¿½ï¿½ï¿½ï¿½
 	        	new Thread(new DBModule()).start();
 	        	
 	        } catch (Exception e) {

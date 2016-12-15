@@ -64,13 +64,14 @@
     
     window.onload=function(){
    	 var canvas = document.getElementById('mycanvas');
-   	 
+   	
    		setInterval(function(){ 
    			$.ajax({
    				url:"test",
    				type: "get",
    				success : function(data) {
    					if (data) {
+   						initCanvas(canvasWidth/2, canvasHeight/2, input[0]/2);
    						maxPerson = data.split(",")[0];
    						for(var i=1;i<=maxPerson;i++) {
    							id[i-1]=data.split(",")[3*i-2]; // 3n-2
@@ -78,7 +79,8 @@
    							y = data.split(",")[3*i]; // 3n
    							
    							insertEventQueue(i,x,y,dataIndex++%maxData);
-   							drawCoordinate(id[i-1], x*100, y*100);
+   							drawCoordinate(id[i-1], x/100.0, y/100.0);
+   							
    						} // for문 종료.
    					} //if문 종료.
    			     } //success 종료.
@@ -88,22 +90,48 @@
     }
     function insertEventQueue(no , xv , yv ,index) {//dataIndex++%maxData
     	
+    	var pen = new jsPen(new jsColor("red"),1);
+    
     	switch(no) {
     	case 0 : 
     		eventQueueX[index]= xv ;
     		eventQueueY[index]= yv ;
+    		if(index<1) {
+				console.log("gd?");
+    			break;
+    		}
+    		gr.drawLine(
+    				new jsPoint ( eventQueueX[index-1] , eventQueueY[index-1] ) ,
+    				new jsPoint ( eventQueueX[index] , eventQueueY [ index ] ) ) ;s
     		break;
     	case 1 :
     		eventQueueX2[index]= xv ;
     		eventQueueY2[index]= yv ;
+    		if(index<1)
+    			break;
+    		gr.drawLine(
+    				new jsPoint(eventQueueX2[index-1],eventQueueY2[index-1] ),
+    				new jsPoint(eventQueueX2[index],eventQueueY2[index])
+    				);
     		break;
     	case 2 :
     		eventQueueX3[index]= xv ;
     		eventQueueY3[index]= yv ;
+    		if(index<1)
+    			break;
+    		gr.drawLine(
+    				new jsPoint(eventQueueX3[index-1],eventQueueY3[index-1]),
+    				new jsPoint(eventQueueX3[index],eventQueueY3[index])
+    				);
     		break;
     	case 3 :
     		eventQueueX4[index]= xv ;
-    		eventQueueY4[index]= yv ;
+    		eventQueueY4[index]= yv ;if(index<1)
+    			break;
+    		gr.drawLine(
+    				new jsPoint(eventQueueX4[index-1],eventQueueY4[index-1]),
+    				new jsPoint(eventQueueX4[index],eventQueueY4[index])
+    				);
     		break;
     	}
     }
@@ -113,6 +141,7 @@
     	var range = w/realX;
         
     	gr=new jsGraphics(document.getElementById("canvas"));
+    	
 		// init Canvas
         gr.setOrigin(new jsPoint(w, h)); 
         gr.setCoordinateSystem("cartecian"); 
@@ -134,7 +163,14 @@
     	} else if (id == 2) {
     		position1 = new jsPoint(x,y);
         	gr.fillCircle(new jsColor("green"), position1, 4);
+    	} else if ( id == 3 ) {
+    		position1 = new jsPoint(x,y);
+        	gr.fillCircle(new jsColor("red"), position1, 4);
+    	} else {
+    		position1 = new jsPoint(x,y);
+        	gr.fillCircle(new jsColor("black"), position1, 4);
     	}
+    	
     	
     }
    

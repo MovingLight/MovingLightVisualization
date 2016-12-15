@@ -15,6 +15,9 @@ public class MovingLightServerSocket extends Thread {
 	private ServerSocket serverSocket = null;
 	private StringBuilder sb;
 	
+
+	private LogFileWriter log;
+
 	private static int PORT = 5006;
 	
 	static {
@@ -59,6 +62,9 @@ public class MovingLightServerSocket extends Thread {
 
 	    public void run() {
 	        try {
+
+	        	log = new LogFileWriter();
+
 	        	
 	        	int read = -1;  
 	        	boolean isFirst = true;
@@ -76,7 +82,7 @@ public class MovingLightServerSocket extends Thread {
 	         		
 	         		/*
 	         		if (cnt == 3) {
-	         			log.fileClose();
+	         			//log.fileClose();
 	         		}
 	         		cnt++;*/
 	         	}
