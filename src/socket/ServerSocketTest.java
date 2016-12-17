@@ -66,27 +66,27 @@ public class ServerSocketTest extends Thread {
 	        	int read = -1; 
 	        	int cnt=0, person_num=0;
 	        	boolean isFirst = true;
-	         	sb = new StringBuilder(); // ClientSocket���κ����� Data�� Append �Ͽ� ����. 
+	         	sb = new StringBuilder(); // ClientSocket으로부터의 Data를 Append 하여 저장.  
 	        	DataInputStream dInput = new DataInputStream(clientSocket.getInputStream());
 	         	
-	        	// ClientSocket���κ����� Data�� Integer(4 Bytes) ������ ���� ����
+	        	// ClientSocket으로부터의 Data를 Integer(4 Bytes) 단위로 끊어 읽음
 	         	while( ( read = dInput.readInt()) != -1 ) {
 	         		
-	         		// ù��° Data = ������ ��
+	         		// 첫번째 Data = 공연자 수
 	         		if (isFirst) {
 	         			isFirst = !isFirst;
-	         			// ������ �� ����
+	         			// 공연자 수 세팅
 	         			person_num = read; 
-	         			// ClientSocket���κ����� ������ �� Data�� Append.
+	         			// // ClientSocket으로부터의 공연자 수 Data를 Append.
 	         			sb.append(read);
 	         			continue;
 	         		}
 	         		cnt++;
-	         		// ������ �� ��ŭ Data�� �о���� ���, ���̻� ���� �ʵ����Ѵ�. 
+	         		// 공연자 수 만큼 Data를 읽어왔을 경우, 더이상 읽지 않도록한다.  
 	         		if ( cnt > person_num*3 ) 
 	         			continue;
 	         		
-	         		// ClientSocket���κ����� ��ǥ�� Data�� Append.
+	         		// ClientSocket으로부터의 좌표값 Data를 Append.
 	         		sb.append(","+read);
 	         		
 	         	}
@@ -94,19 +94,19 @@ public class ServerSocketTest extends Thread {
 	            isRunning=false;
 	            dInput.close();
 	        } 
-	        // ClientSocket���κ����� ��ǥ �� �б� �Ϸ�
+	        // ClientSocket으로부터의 좌표 값 읽기 완료
 	        catch (EOFException e){
-	        	// COORD�� ClientSocket���κ����� ��ǥ �� ����
+	        	// COORD에 ClientSocket으로부터의 좌표 값 대입
 	        	COORD = sb.toString();
 	        	System.out.println("DATA : " + COORD);
 	        	
-	        	// ClientSocket���κ����� ��ǥ �� �����ð�
+	        	// ClientSocket으로부터의 좌표 값 도착시간
 	        	StaticValue.COORD_TIME = System.currentTimeMillis();
-	        	// COORD_LIST�� ClientSocket���κ����� ��ǥ �� Add
+	        	// COORD_LIST에 ClientSocket으로부터의 좌표 값 Add
 	        	StaticValue.COORD_LIST.add(COORD);
 	        	
-	        	// ClientSocket���κ����� ��ǥ ����
-	        	//  DB�� �����ϴ� Thread ����
+	        	// ClientSocket으로부터의 좌표 값을
+	        	//  DB에 저장하는 Thread 동작
 	        	new Thread(new DBModule()).start();
 	        	
 	        } catch (Exception e) {
