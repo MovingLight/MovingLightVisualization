@@ -26,9 +26,9 @@ html{
 		position:relative;
 		width:800px;
 		height:400px;
-		border:#999999 1px solid;
+		border:#000000 1px solid;
 		z-index:2;
-		background-color:rgba(0,0,0,0.4);
+		background-color:rgba(255,255,255,0.4);
 	}
 </style>
 <script type="text/JavaScript" src="lib/jsDraw2D.js"></script>
@@ -51,7 +51,7 @@ html{
 		eventQueueY3=[],
 		eventQueueX4=[],
 		eventQueueY4=[],// 첫번째 첨자 : 사람 / 두번째 첨자 : y의 데이터 인덱스
-		maxData=5, // 최대 저장 가능한 데이터 갯수.
+		maxData=20, // 최대 저장 가능한 데이터 갯수.
 		dataIndex=0, //현재 데이터 index.
 		personNo=0, // 사람 수.
 		maxPerson=0, //최대 사람 수. 일단 필요할 것 같아서 선언해둠.
@@ -93,7 +93,7 @@ html{
    					} //if문 종료.
    			     } //success 종료.
    			});
-   		}, 500);
+   		}, 200);
    		setInterval(function(){
    			gr.clear();
    			initCanvas( canvasWidth / 2 , canvasHeight / 2 , input[0]/2);
@@ -164,10 +164,10 @@ html{
 		// init Canvas
         gr.setOrigin(new jsPoint(w, h)); 
         gr.setCoordinateSystem("cartecian"); 
-        gr.showGrid(range, false);	
+        gr.showGrid(range, false, new jsColor("black"));	
         
         //if(isFirst) {// mark center "0"
-        	gr.drawText("0",new jsPoint(0,0),font, new jsColor("gray"));
+        	gr.drawText("0",new jsPoint(0,0),font, new jsColor("black"));
         	//isFirst=false;
         //}
     }
