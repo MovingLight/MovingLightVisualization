@@ -94,16 +94,33 @@
    			for( var interval = 0 ; interval < maxData ; interval++ ) {
    				
    				drawCoordinate( 1 ,  eventQueueX[interval] / 100.0 , eventQueueY[interval] / 100.0 ) ;
-   				
+   				gr.drawLine(new jsPen(new jsColor("blue")), 
+   						new jsPoint(eventQueueX[interval]/100.0,eventQueueY[interval]/100.0),
+   						new jsPoint(eventQueueX[interval+1] / 100.0 , eventQueueY[interval+1] / 100.0)
+   						 
+   				);
    				drawCoordinate( 2 ,  eventQueueX2[interval] / 100.0 , eventQueueY2[interval] / 100.0 ) ;
-   				
+   				gr.drawLine(new jsPen(new jsColor("green")), 
+   						new jsPoint(eventQueueX2[interval]/100.0,eventQueueY2[interval]/100.0),
+   						new jsPoint(eventQueueX2[interval+1] / 100.0 , eventQueueY2[interval+1] / 100.0)
+   						 
+   				);
    				drawCoordinate( 3 ,  eventQueueX3[interval] / 100.0 , eventQueueY3[interval] / 100.0 ) ;
-   				
+   				gr.drawLine(new jsPen(new jsColor("red")), 
+   						new jsPoint(eventQueueX3[interval]/100.0,eventQueueY3[interval]/100.0),
+   						new jsPoint(eventQueueX3[interval+1] / 100.0 , eventQueueY3[interval+1] / 100.0)
+   						 
+   				);
    				drawCoordinate( 4 ,  eventQueueX4[interval] / 100.0 , eventQueueY4[interval] / 100.0 ) ;
+   				gr.drawLine(new jsPen(new jsColor("black")), 
+   						new jsPoint(eventQueueX4[interval]/100.0,eventQueueY4[interval]/100.0),
+   						new jsPoint(eventQueueX4[interval+1] / 100.0 , eventQueueY4[interval+1] / 100.0)
+   						 
+   				);
    				
    			}
    			
-   			gr.drawLine(new jsPen(), new jsPoint(0,0),new jsPoint(3000,3000) ); 
+   			 
    		},500);
     }
     function insertEventQueue(no , xv , yv ,index) { //dataIndex++%maxData
@@ -162,7 +179,7 @@
     		position1 = new jsPoint(x,y);
         	gr.fillCircle(new jsColor("black"), position1, 4);
     	}
-    	gr.drawLine(new jsColor("blue"),position1)
+    	//gr.drawLine(new jsColor("blue"),position1) ㄱ dzdzㅇ
     }
    
 </script>
