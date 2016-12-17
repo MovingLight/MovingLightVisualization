@@ -8,7 +8,7 @@
 <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.2/jquery.min.js"></script>
 <style>
 	body {
-		width: 1000px;
+		width: 800px;
   		margin: 0 auto;
 	}
 	#canvas {
@@ -32,6 +32,7 @@
 <div id="canvas"></div>
 
 <br><br><br><br>
+<p id="itemCountView"></p>
 
 <script type="text/javascript">
 	var eventQueueX=[] ,//, // 첫번째 첨자 : 사람 / 두번째 첨자 : x의 데이터 인덱스
@@ -42,7 +43,7 @@
 		eventQueueY3=[],
 		eventQueueX4=[],
 		eventQueueY4=[],// 첫번째 첨자 : 사람 / 두번째 첨자 : y의 데이터 인덱스
-		maxData=20, // 최대 저장 가능한 데이터 갯수.
+		maxData=5, // 최대 저장 가능한 데이터 갯수.
 		dataIndex=0, //현재 데이터 index.
 		personNo=0, // 사람 수.
 		maxPerson=0, //최대 사람 수. 일단 필요할 것 같아서 선언해둠.
@@ -85,6 +86,7 @@
    			});
    		}, 500);
    		setInterval(function(){
+   			gr.clear();
    			initCanvas( canvasWidth / 2 , canvasHeight / 2 , input[0]/2);
    			
    			for( var interval = 0 ; interval < maxData ; interval++ ) {
@@ -120,6 +122,7 @@
     		eventQueueY4[index]= yv ;
     		break;
     	}
+    	//documents.getElementsById("itemCountView").innerHTML(itemCountView);
     }
     var font=new jsFont("arial","bold","12px");
     
@@ -132,10 +135,10 @@
         gr.setCoordinateSystem("cartecian"); 
         gr.showGrid(range, false);	
         
-        if(isFirst) {// mark center "0"
+        //if(isFirst) {// mark center "0"
         	gr.drawText("0",new jsPoint(0,0),font, new jsColor("gray"));
-        	isFirst=false;
-        }
+        	//isFirst=false;
+        //}
     }
     
     var position1;
