@@ -48,12 +48,14 @@
 		maxPerson=0, //최대 사람 수. 일단 필요할 것 같아서 선언해둠.
 		id=[], // id
 		x=0, // x좌
-		y=0; // y좌
+		y=0,
+		isFirst=true; // y좌
 	
 
 	var canvasWidth = $('#canvas').outerWidth(true);
 	
-    var realSize = prompt("가로/세로 값을 미터(m) 단위로 입력하세요.(가로/세로)", "");
+    //var realSize = prompt("가로/세로 값을 미터(m) 단위로 입력하세요.(가로/세로)", "");
+    var realSize='30/10';
     if (realSize != null) {
     	var input = realSize.split("/");
     	var canvasHeight = input[1] * canvasWidth / input[0];
@@ -63,75 +65,59 @@
     var gr;
     
     window.onload=function(){
+     //var grs=new jsGraphics(document.getElementById("canvas"));
    	 var canvas = document.getElementById('mycanvas');
-   	
    		setInterval(function(){ 
    			$.ajax({
    				url:"test",
    				type: "get",
    				success : function(data) {
    					if (data) {
-   						initCanvas(canvasWidth/2, canvasHeight/2, input[0]/2);
    						maxPerson = data.split(",")[0];
    						for(var i=1;i<=maxPerson;i++) {
    							id[i-1]=data.split(",")[3*i-2]; // 3n-2
    							x = data.split(",")[3*i-1]; // 3n-1
    							y = data.split(",")[3*i]; // 3n
-   							
    							insertEventQueue(i,x,y,dataIndex++%maxData);
-   							drawCoordinate(id[i-1], x/100.0, y/100.0);
-   							
    						} // for문 종료.
    					} //if문 종료.
    			     } //success 종료.
    			});
    		}, 500);
-   		
+   		setInterval(function(){
+   			initCanvas( canvasWidth / 2 , canvasHeight / 2 , input[0]/2);
+   			
+   			for( var interval = 0 ; interval < maxData ; interval++ ) {
+   				
+   				drawCoordinate( 1 ,  eventQueueX[interval] / 100.0 , eventQueueY[interval] / 100.0 ) ;
+   				
+   				drawCoordinate( 2 ,  eventQueueX2[interval] / 100.0 , eventQueueY2[interval] / 100.0 ) ;
+   				
+   				drawCoordinate( 3 ,  eventQueueX3[interval] / 100.0 , eventQueueY3[interval] / 100.0 ) ;
+   				
+   				drawCoordinate( 4 ,  eventQueueX4[interval] / 100.0 , eventQueueY4[interval] / 100.0 ) ;
+   				
+   			}
+   		},500);
     }
-    function insertEventQueue(no , xv , yv ,index) {//dataIndex++%maxData
-    	
+    function insertEventQueue(no , xv , yv ,index) { //dataIndex++%maxData
     	var pen = new jsPen(new jsColor("red"),1);
-    
     	switch(no) {
-    	case 0 : 
+    	case 1 : 
     		eventQueueX[index]= xv ;
     		eventQueueY[index]= yv ;
-    		if(index<1) {
-				console.log("gd?");
-    			break;
-    		}
-    		gr.drawLine(
-    				new jsPoint ( eventQueueX[index-1] , eventQueueY[index-1] ) ,
-    				new jsPoint ( eventQueueX[index] , eventQueueY [ index ] ) ) ;s
-    		break;
-    	case 1 :
-    		eventQueueX2[index]= xv ;
-    		eventQueueY2[index]= yv ;
-    		if(index<1)
-    			break;
-    		gr.drawLine(
-    				new jsPoint(eventQueueX2[index-1],eventQueueY2[index-1] ),
-    				new jsPoint(eventQueueX2[index],eventQueueY2[index])
-    				);
     		break;
     	case 2 :
-    		eventQueueX3[index]= xv ;
-    		eventQueueY3[index]= yv ;
-    		if(index<1)
-    			break;
-    		gr.drawLine(
-    				new jsPoint(eventQueueX3[index-1],eventQueueY3[index-1]),
-    				new jsPoint(eventQueueX3[index],eventQueueY3[index])
-    				);
+    		eventQueueX2[index]= xv ;
+    		eventQueueY2[index]= yv ;
     		break;
     	case 3 :
+    		eventQueueX3[index]= xv ;
+    		eventQueueY3[index]= yv ;
+    		break;
+    	case 4 :
     		eventQueueX4[index]= xv ;
-    		eventQueueY4[index]= yv ;if(index<1)
-    			break;
-    		gr.drawLine(
-    				new jsPoint(eventQueueX4[index-1],eventQueueY4[index-1]),
-    				new jsPoint(eventQueueX4[index],eventQueueY4[index])
-    				);
+    		eventQueueY4[index]= yv ;
     		break;
     	}
     }
@@ -139,24 +125,21 @@
     
     function initCanvas(w, h, realX) {	
     	var range = w/realX;
-        
-    	gr=new jsGraphics(document.getElementById("canvas"));
+    	gr = new jsGraphics(document.getElementById("canvas"));
     	
 		// init Canvas
         gr.setOrigin(new jsPoint(w, h)); 
         gr.setCoordinateSystem("cartecian"); 
         gr.showGrid(range, false);	
         
-        // mark center "0"
-        gr.drawText("0",new jsPoint(0,0),font, new jsColor("gray"));
-        
-        
-       
+        if(isFirst) {// mark center "0"
+        	gr.drawText("0",new jsPoint(0,0),font, new jsColor("gray"));
+        	isFirst=false;
+        }
     }
     
     var position1;
     function drawCoordinate(id, x, y) {
-    	
     	if (id == 1) {
     		position1 = new jsPoint(x,y);
         	gr.fillCircle(new jsColor("blue"), position1, 4);
@@ -170,8 +153,6 @@
     		position1 = new jsPoint(x,y);
         	gr.fillCircle(new jsColor("black"), position1, 4);
     	}
-    	
-    	
     }
    
 </script>

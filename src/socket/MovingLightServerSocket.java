@@ -60,6 +60,7 @@ public class MovingLightServerSocket extends Thread {
 
 	    public void run() {
 	        try {
+
 	        	
 	        	int read = -1;  
 	        	boolean isFirst = true;
