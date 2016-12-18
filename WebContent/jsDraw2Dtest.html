@@ -50,7 +50,13 @@ html{
 		eventQueueX3=[],
 		eventQueueY3=[],
 		eventQueueX4=[],
-		eventQueueY4=[],// 첫번째 첨자 : 사람 / 두번째 첨자 : y의 데이터 인덱스
+		eventQueueY4=[],
+		eventQueueX5=[],
+		eventQueueY5=[],
+		eventQueueX6=[],
+		eventQueueY6=[],
+		eventQueueX7=[],
+		eventQueueY7=[],// 첫번째 첨자 : 사람 / 두번째 첨자 : y의 데이터 인덱스
 		maxData=20, // 최대 저장 가능한 데이터 갯수.
 		dataIndex=0, //현재 데이터 index.
 		personNo=0, // 사람 수.
@@ -77,6 +83,7 @@ html{
     window.onload=function(){
      //var grs=new jsGraphics(document.getElementById("canvas"));
      var dataCount=0;
+     var dindex=1;
    	 var canvas = document.getElementById('mycanvas');
    		setInterval(function(){ 
    			$.ajax({
@@ -94,7 +101,7 @@ html{
 	   						for(var j=1;j<=maxPerson;j++) {
 	   							x = data.split("^")[i-1].split(",")[3*j-1 ]; // 12n-10//12*j-12+2
 	   							y = data.split("^")[i-1].split(",")[3*j ]; //12n-9//12*j-12+3
-	   							insertEventQueue(i,x,y,j);
+	   							insertEventQueue(j,x,y,i);
 	   						} // for문 종료.
    						}
    					} //if문 종료.
@@ -127,10 +134,15 @@ html{
    						new jsPoint(eventQueueX4[interval-1]/100.0,eventQueueY4[interval-1]/100.0),
    						new jsPoint(eventQueueX4[interval] / 100.0 , eventQueueY4[interval] / 100.0)	 
    				);
-   				drawCoordinate( 5 ,  eventQueueX4[interval] / 100.0 , eventQueueY4[interval] / 100.0 ) ;
+   				drawCoordinate( 5 ,  eventQueueX5[interval] / 100.0 , eventQueueY5[interval] / 100.0 ) ;
    				gr.drawLine(new jsPen(new jsColor("black")), 
-   						new jsPoint(eventQueueX4[interval-1]/100.0,eventQueueY4[interval-1]/100.0),
-   						new jsPoint(eventQueueX4[interval] / 100.0 , eventQueueY4[interval] / 100.0)	 
+   						new jsPoint(eventQueueX5[interval-1]/100.0,eventQueueY5[interval-1]/100.0),
+   						new jsPoint(eventQueueX5[interval] / 100.0 , eventQueueY5[interval] / 100.0)	 
+   				);
+   				drawCoordinate( 6 ,  eventQueueX6[interval] / 100.0 , eventQueueY6[interval] / 100.0 ) ;
+   				gr.drawLine(new jsPen(new jsColor("black")), 
+   						new jsPoint(eventQueueX6[interval-1]/100.0,eventQueueY6[interval-1]/100.0),
+   						new jsPoint(eventQueueX6[interval] / 100.0 , eventQueueY6[interval] / 100.0)	 
    				);
    			}
    		},1000);
