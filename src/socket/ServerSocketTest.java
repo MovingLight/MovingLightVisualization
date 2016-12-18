@@ -18,7 +18,9 @@ public class ServerSocketTest extends Thread {
 	
 	private static int PORT = 5006;
 	public static String COORD;
-	
+	public static String coord[] = new String[20];
+	public static int maxData = 20;
+	public static int index=0;
 	static {
 		instance = new ServerSocketTest();
 		//instance.start();
@@ -98,7 +100,10 @@ public class ServerSocketTest extends Thread {
 	        catch (EOFException e){
 	        	// COORD에 ClientSocket으로부터의 좌표 값 대입
 	        	COORD = sb.toString();
-	        	System.out.println("DATA : " + COORD);
+	        	coord[index++%maxData]=COORD;
+	        	
+	        	System.out.println("개수--"+index);
+//	        	System.out.println("DATA : " + COORD);
 	        	
 	        	// ClientSocket으로부터의 좌표 값 도착시간
 	        	StaticValue.COORD_TIME = System.currentTimeMillis();

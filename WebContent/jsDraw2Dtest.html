@@ -51,7 +51,7 @@ html{
 		eventQueueY3=[],
 		eventQueueX4=[],
 		eventQueueY4=[],// 첫번째 첨자 : 사람 / 두번째 첨자 : y의 데이터 인덱스
-		maxData=20, // 최대 저장 가능한 데이터 갯수.
+		maxData=5, // 최대 저장 가능한 데이터 갯수.
 		dataIndex=0, //현재 데이터 index.
 		personNo=0, // 사람 수.
 		maxPerson=0, //최대 사람 수. 일단 필요할 것 같아서 선언해둠.
@@ -76,6 +76,7 @@ html{
     
     window.onload=function(){
      //var grs=new jsGraphics(document.getElementById("canvas"));
+     var dataCount=0;
    	 var canvas = document.getElementById('mycanvas');
    		setInterval(function(){ 
    			$.ajax({
@@ -83,74 +84,112 @@ html{
    				type: "get",
    				success : function(data) {
    					if (data) {
-   						maxPerson = data.split(",")[0];
-   						for(var i=1;i<=maxPerson;i++) {
-   							id[i-1]=data.split(",")[3*i-2]; // 3n-2
-   							x = data.split(",")[3*i-1]; // 3n-1
-   							y = data.split(",")[3*i]; // 3n
-   							insertEventQueue(i,x,y,dataIndex++%maxData);
-   						} // for문 종료.
+   						dataCount = data.split("/")[0];
+   						data = data.split("/")[1];
+   						
+   						
+   						for(var j=1;j<dataCount;j++) {
+   							maxPerson = data.split(",")[13*j-13];
+	   						for(var i=1;i<=maxPerson;i++) {
+	   							//13
+	   							/*id[i-1]=data.split(",")[3*(i*j)-2]; // 3n-2
+	   							x = data.split(",")[3*(i*j)-1]; // 3n-1
+	   							y = data.split(",")[3*(i*j)]; // 3n*/
+	   							//id[i-1]=data.split(",")[3*j-2]; // 12-11//12*j-12+1
+	   							x = data.split(",")[3*j-1 +(13*(j-1)) ]; // 12n-10//12*j-12+2
+	   							y = data.split(",")[3*j +(13*(j-1)) ]; //12n-9//12*j-12+3
+	   							//insertEventQueue(i,x,y,dataIndex++%maxData); // javascript에서의 Queue 조절할 때
+	   							insertEventQueue(i,x,y,j);
+	   							// 3 - 28
+	   							//12n-11
+	   						} // for문 종료.
+   						}
+   						//setTimeout(function(){
+   							for( var interval = 0 ; interval < dataCount ; interval++ ) {
+   	   			   				if(interval==0) {
+   	   			   					gr.clear();
+   	   			   					initCanvas( canvasWidth / 2 , canvasHeight / 2 , input[0]/2);
+   	   			   				}
+   	   			   				drawCoordinate( 1 ,  eventQueueX[interval] / 100.0 , eventQueueY[interval] / 100.0 ) ;
+   	   			   				 gr.drawLine(new jsPen(new jsColor("blue")), 
+   	   			   						new jsPoint(eventQueueX[interval]/100.0,eventQueueY[interval]/100.0),
+   	   			   						new jsPoint(eventQueueX[interval+1] / 100.0 , eventQueueY[interval+1] / 100.0)
+   	   			   				);
+   	   			   				drawCoordinate( 2 ,  eventQueueX2[interval] / 100.0 , eventQueueY2[interval] / 100.0 ) ;
+   	   			   				gr.drawLine(new jsPen(new jsColor("green")), 
+   	   			   						new jsPoint(eventQueueX2[interval]/100.0,eventQueueY2[interval]/100.0),
+   	   			   						new jsPoint(eventQueueX2[interval+1] / 100.0 , eventQueueY2[interval+1] / 100.0)
+   	   			   				);
+   	   			   				drawCoordinate( 3 ,  eventQueueX3[interval] / 100.0 , eventQueueY3[interval] / 100.0 ) ;
+   	   			   				gr.drawLine(new jsPen(new jsColor("red")), 
+   	   			   						new jsPoint(eventQueueX3[interval]/100.0,eventQueueY3[interval]/100.0),
+   	   			   						new jsPoint(eventQueueX3[interval+1] / 100.0 , eventQueueY3[interval+1] / 100.0)
+   	   			   				);
+   	   			   				drawCoordinate( 4 ,  eventQueueX4[interval] / 100.0 , eventQueueY4[interval] / 100.0 ) ;
+   	   			   				gr.drawLine(new jsPen(new jsColor("black")), 
+   	   			   						new jsPoint(eventQueueX4[interval]/100.0,eventQueueY4[interval]/100.0),
+   	   			   						new jsPoint(eventQueueX4[interval+1] / 100.0 , eventQueueY4[interval+1] / 100.0)	 
+   	   			   				); 
+   	   			   			}
+   						//},200);
+   						
    					} //if문 종료.
    			     } //success 종료.
    			});
-   		}, 200);
-   		setInterval(function(){
-   			gr.clear();
-   			initCanvas( canvasWidth / 2 , canvasHeight / 2 , input[0]/2);
-   			
-   			
-   			for( var interval = 0 ; interval < maxData ; interval++ ) {
-   				
+   		}, 400);
+   		/* setInterval(function(){
+   			for( var interval = 0 ; interval < 20 ; interval++ ) {
+   				if(interval==0) {
+   					gr.clear();
+   					initCanvas( canvasWidth / 2 , canvasHeight / 2 , input[0]/2);
+   				}
    				drawCoordinate( 1 ,  eventQueueX[interval] / 100.0 , eventQueueY[interval] / 100.0 ) ;
    				gr.drawLine(new jsPen(new jsColor("blue")), 
-   						new jsPoint(eventQueueX[interval]/100.0,eventQueueY[interval]/100.0),
-   						new jsPoint(eventQueueX[interval+1] / 100.0 , eventQueueY[interval+1] / 100.0)
-   						 
+   						new jsPoint(eventQueueX[interval-1]/100.0,eventQueueY[interval-1]/100.0),
+   						new jsPoint(eventQueueX[interval] / 100.0 , eventQueueY[interval] / 100.0)
    				);
    				drawCoordinate( 2 ,  eventQueueX2[interval] / 100.0 , eventQueueY2[interval] / 100.0 ) ;
    				gr.drawLine(new jsPen(new jsColor("green")), 
-   						new jsPoint(eventQueueX2[interval]/100.0,eventQueueY2[interval]/100.0),
-   						new jsPoint(eventQueueX2[interval+1] / 100.0 , eventQueueY2[interval+1] / 100.0)
-   						 
+   						new jsPoint(eventQueueX2[interval-1]/100.0,eventQueueY2[interval-1]/100.0),
+   						new jsPoint(eventQueueX2[interval] / 100.0 , eventQueueY2[interval] / 100.0)
    				);
    				drawCoordinate( 3 ,  eventQueueX3[interval] / 100.0 , eventQueueY3[interval] / 100.0 ) ;
    				gr.drawLine(new jsPen(new jsColor("red")), 
-   						new jsPoint(eventQueueX3[interval]/100.0,eventQueueY3[interval]/100.0),
-   						new jsPoint(eventQueueX3[interval+1] / 100.0 , eventQueueY3[interval+1] / 100.0)
-   						 
+   						new jsPoint(eventQueueX3[interval-1]/100.0,eventQueueY3[interval-1]/100.0),
+   						new jsPoint(eventQueueX3[interval] / 100.0 , eventQueueY3[interval] / 100.0)
    				);
    				drawCoordinate( 4 ,  eventQueueX4[interval] / 100.0 , eventQueueY4[interval] / 100.0 ) ;
    				gr.drawLine(new jsPen(new jsColor("black")), 
-   						new jsPoint(eventQueueX4[interval]/100.0,eventQueueY4[interval]/100.0),
-   						new jsPoint(eventQueueX4[interval+1] / 100.0 , eventQueueY4[interval+1] / 100.0)
-   						 
+   						new jsPoint(eventQueueX4[interval-1]/100.0,eventQueueY4[interval-1]/100.0),
+   						new jsPoint(eventQueueX4[interval] / 100.0 , eventQueueY4[interval] / 100.0)	 
    				);
-   				
    			}
-   			
-   			 
-   		},500);
+   		},1000); */
     }
     function insertEventQueue(no , xv , yv ,index) { //dataIndex++%maxData
     	var pen = new jsPen(new jsColor("red"),1);
+    	
     	switch(no) {
     	case 1 : 
     		eventQueueX[index]= xv ;
     		eventQueueY[index]= yv ;
-    		qq[index] = new jsPoint(xv,yv);
-    		console.log(qq.length);
+    		console.log("1");
+    		
     		break;
     	case 2 :
     		eventQueueX2[index]= xv ;
     		eventQueueY2[index]= yv ;
+    		console.log("2");
     		break;
     	case 3 :
     		eventQueueX3[index]= xv ;
     		eventQueueY3[index]= yv ;
+    		console.log("3");
     		break;
     	case 4 :
     		eventQueueX4[index]= xv ;
     		eventQueueY4[index]= yv ;
+    		console.log("4");
     		break;
     	}
     	//documents.getElementsById("itemCountView").innerHTML(itemCountView);

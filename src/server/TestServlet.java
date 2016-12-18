@@ -22,8 +22,15 @@ public class TestServlet extends HttpServlet {
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		// TODO Auto-generated method stub
 		//response.getWriter().printf(CoordinateServerSocket.COORD + "");
-		System.out.println("data-"+ServerSocketTest.COORD);
-		response.getWriter().printf(ServerSocketTest.COORD);
+		StringBuilder sb = new StringBuilder();
+		int index = ServerSocketTest.index;
+		if(index>=19)
+			index=19;
+		for(int i=0;i<index;i++) {
+			sb.append(ServerSocketTest.coord[i]+",");
+		}
+		System.out.println(sb.toString());
+		response.getWriter().printf(index+"/"+sb.toString());
 	}
 
 }
