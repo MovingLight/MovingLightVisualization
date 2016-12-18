@@ -29,7 +29,7 @@ public class TestServlet extends HttpServlet {
 		for(int i=0;i<index;i++) {
 			sb.append(ServerSocketTest.coord[i]+",");
 		}
-		System.out.println(sb.toString());
+		System.out.println(index+"/"+sb);
 		response.getWriter().printf(index+"/"+sb.toString());
 	}
 

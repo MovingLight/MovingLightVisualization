@@ -1,0 +1,235 @@
+<!DOCTYPE html>
+<html>
+
+
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, user-scalable=no">
+<title>Insert title here</title>
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.2/jquery.min.js"></script>
+<style>
+html{
+	background-image: url("image/woodenfloortexture.jpg");
+	background-size:cover;
+	z-index:0;
+}
+	body {
+		width: 800px;
+  		margin: 0 auto;
+	}
+	#canvas {
+		margin-top: 50px;
+		margin-left: 0px;
+		margin-right: 0px;
+		padding: 0;
+		overflow:hidden;
+		position:relative;
+		width:800px;
+		height:400px;
+		border:#000000 1px solid;
+		z-index:2;
+		background-color:rgba(255,255,255,0.4);
+	}
+</style>
+<script type="text/JavaScript" src="lib/jsDraw2D.js"></script>
+</head>
+
+
+<body>
+
+<div id="canvas"></div>
+
+<br><br><br><br>
+<p id="itemCountView"></p>
+
+<script type="text/javascript">
+	var eventQueueX=[] ,//, // 첫번째 첨자 : 사람 / 두번째 첨자 : x의 데이터 인덱스
+		eventQueueY=[] ,
+		eventQueueX2=[],
+		eventQueueY2=[],
+		eventQueueX3=[],
+		eventQueueY3=[],
+		eventQueueX4=[],
+		eventQueueY4=[],// 첫번째 첨자 : 사람 / 두번째 첨자 : y의 데이터 인덱스
+		maxData=5, // 최대 저장 가능한 데이터 갯수.
+		dataIndex=0, //현재 데이터 index.
+		personNo=0, // 사람 수.
+		maxPerson=0, //최대 사람 수. 일단 필요할 것 같아서 선언해둠.
+		id=[], // id
+		x=0, // x좌
+		y=0,
+		isFirst=true,
+		qq=[]; // y좌
+	
+
+	var canvasWidth = $('#canvas').outerWidth(true);
+	
+    //var realSize = prompt("가로/세로 값을 미터(m) 단위로 입력하세요.(가로/세로)", "");
+    var realSize='8/4';
+    if (realSize != null) {
+    	var input = realSize.split("/");
+    	var canvasHeight = input[1] * canvasWidth / input[0];
+    	$('#canvas').css('height', canvasHeight+'px');
+    	initCanvas(canvasWidth/2, canvasHeight/2, input[0]/2);
+    }
+    var gr;
+    
+    window.onload=function(){
+     //var grs=new jsGraphics(document.getElementById("canvas"));
+     var dataCount=0;
+   	 var canvas = document.getElementById('mycanvas');
+   		setInterval(function(){ 
+   			$.ajax({
+   				url:"test",
+   				type: "get",
+   				success : function(data) {
+   					if (data) {
+   						dataCount = data.split("/")[0];
+   						data = data.split("/")[1];
+   						
+   						
+   						for(var j=1;j<dataCount;j++) {
+   							maxPerson = data.split(",")[13*j-13];
+	   						for(var i=1;i<=maxPerson;i++) {
+	   							//13
+	   							/*id[i-1]=data.split(",")[3*(i*j)-2]; // 3n-2
+	   							x = data.split(",")[3*(i*j)-1]; // 3n-1
+	   							y = data.split(",")[3*(i*j)]; // 3n*/
+	   							//id[i-1]=data.split(",")[3*j-2]; // 12-11//12*j-12+1
+	   							x = data.split(",")[3*j-1 +(13*(j-1)) ]; // 12n-10//12*j-12+2
+	   							y = data.split(",")[3*j +(13*(j-1)) ]; //12n-9//12*j-12+3
+	   							//insertEventQueue(i,x,y,dataIndex++%maxData); // javascript에서의 Queue 조절할 때
+	   							insertEventQueue(i,x,y,j);
+	   							// 3 - 28
+	   							//12n-11
+	   						} // for문 종료.
+   						}
+   						//setTimeout(function(){
+   							for( var interval = 0 ; interval < dataCount ; interval++ ) {
+   	   			   				if(interval==0) {
+   	   			   					gr.clear();
+   	   			   					initCanvas( canvasWidth / 2 , canvasHeight / 2 , input[0]/2);
+   	   			   				}
+   	   			   				drawCoordinate( 1 ,  eventQueueX[interval] / 100.0 , eventQueueY[interval] / 100.0 ) ;
+   	   			   				 gr.drawLine(new jsPen(new jsColor("blue")), 
+   	   			   						new jsPoint(eventQueueX[interval]/100.0,eventQueueY[interval]/100.0),
+   	   			   						new jsPoint(eventQueueX[interval+1] / 100.0 , eventQueueY[interval+1] / 100.0)
+   	   			   				);
+   	   			   				drawCoordinate( 2 ,  eventQueueX2[interval] / 100.0 , eventQueueY2[interval] / 100.0 ) ;
+   	   			   				gr.drawLine(new jsPen(new jsColor("green")), 
+   	   			   						new jsPoint(eventQueueX2[interval]/100.0,eventQueueY2[interval]/100.0),
+   	   			   						new jsPoint(eventQueueX2[interval+1] / 100.0 , eventQueueY2[interval+1] / 100.0)
+   	   			   				);
+   	   			   				drawCoordinate( 3 ,  eventQueueX3[interval] / 100.0 , eventQueueY3[interval] / 100.0 ) ;
+   	   			   				gr.drawLine(new jsPen(new jsColor("red")), 
+   	   			   						new jsPoint(eventQueueX3[interval]/100.0,eventQueueY3[interval]/100.0),
+   	   			   						new jsPoint(eventQueueX3[interval+1] / 100.0 , eventQueueY3[interval+1] / 100.0)
+   	   			   				);
+   	   			   				drawCoordinate( 4 ,  eventQueueX4[interval] / 100.0 , eventQueueY4[interval] / 100.0 ) ;
+   	   			   				gr.drawLine(new jsPen(new jsColor("black")), 
+   	   			   						new jsPoint(eventQueueX4[interval]/100.0,eventQueueY4[interval]/100.0),
+   	   			   						new jsPoint(eventQueueX4[interval+1] / 100.0 , eventQueueY4[interval+1] / 100.0)	 
+   	   			   				); 
+   	   			   			}
+   						//},200);
+   						
+   					} //if문 종료.
+   			     } //success 종료.
+   			});
+   		}, 400);
+   		/* setInterval(function(){
+   			for( var interval = 0 ; interval < 20 ; interval++ ) {
+   				if(interval==0) {
+   					gr.clear();
+   					initCanvas( canvasWidth / 2 , canvasHeight / 2 , input[0]/2);
+   				}
+   				drawCoordinate( 1 ,  eventQueueX[interval] / 100.0 , eventQueueY[interval] / 100.0 ) ;
+   				gr.drawLine(new jsPen(new jsColor("blue")), 
+   						new jsPoint(eventQueueX[interval-1]/100.0,eventQueueY[interval-1]/100.0),
+   						new jsPoint(eventQueueX[interval] / 100.0 , eventQueueY[interval] / 100.0)
+   				);
+   				drawCoordinate( 2 ,  eventQueueX2[interval] / 100.0 , eventQueueY2[interval] / 100.0 ) ;
+   				gr.drawLine(new jsPen(new jsColor("green")), 
+   						new jsPoint(eventQueueX2[interval-1]/100.0,eventQueueY2[interval-1]/100.0),
+   						new jsPoint(eventQueueX2[interval] / 100.0 , eventQueueY2[interval] / 100.0)
+   				);
+   				drawCoordinate( 3 ,  eventQueueX3[interval] / 100.0 , eventQueueY3[interval] / 100.0 ) ;
+   				gr.drawLine(new jsPen(new jsColor("red")), 
+   						new jsPoint(eventQueueX3[interval-1]/100.0,eventQueueY3[interval-1]/100.0),
+   						new jsPoint(eventQueueX3[interval] / 100.0 , eventQueueY3[interval] / 100.0)
+   				);
+   				drawCoordinate( 4 ,  eventQueueX4[interval] / 100.0 , eventQueueY4[interval] / 100.0 ) ;
+   				gr.drawLine(new jsPen(new jsColor("black")), 
+   						new jsPoint(eventQueueX4[interval-1]/100.0,eventQueueY4[interval-1]/100.0),
+   						new jsPoint(eventQueueX4[interval] / 100.0 , eventQueueY4[interval] / 100.0)	 
+   				);
+   			}
+   		},1000); */
+    }
+    function insertEventQueue(no , xv , yv ,index) { //dataIndex++%maxData
+    	var pen = new jsPen(new jsColor("red"),1);
+    	
+    	switch(no) {
+    	case 1 : 
+    		eventQueueX[index]= xv ;
+    		eventQueueY[index]= yv ;
+    		console.log("1");
+    		
+    		break;
+    	case 2 :
+    		eventQueueX2[index]= xv ;
+    		eventQueueY2[index]= yv ;
+    		console.log("2");
+    		break;
+    	case 3 :
+    		eventQueueX3[index]= xv ;
+    		eventQueueY3[index]= yv ;
+    		console.log("3");
+    		break;
+    	case 4 :
+    		eventQueueX4[index]= xv ;
+    		eventQueueY4[index]= yv ;
+    		console.log("4");
+    		break;
+    	}
+    	//documents.getElementsById("itemCountView").innerHTML(itemCountView);
+    }
+    var font=new jsFont("arial","bold","12px");
+    
+    function initCanvas(w, h, realX) {	
+    	var range = w/realX;
+    	gr = new jsGraphics(document.getElementById("canvas"));
+    	
+		// init Canvas
+        gr.setOrigin(new jsPoint(w, h)); 
+        gr.setCoordinateSystem("cartecian"); 
+        gr.showGrid(range, false, new jsColor("black"));	
+        
+        //if(isFirst) {// mark center "0"
+        	gr.drawText("0",new jsPoint(0,0),font, new jsColor("black"));
+        	//isFirst=false;
+        //}
+    }
+   
+    var position1;
+    function drawCoordinate(id, x, y) {
+    	if (id == 1) {
+    		position1 = new jsPoint(x,y);
+        	gr.fillCircle(new jsColor("blue"), position1, 4);
+    	} else if (id == 2) {
+    		position1 = new jsPoint(x,y);
+        	gr.fillCircle(new jsColor("green"), position1, 4);
+    	} else if ( id == 3 ) {
+    		position1 = new jsPoint(x,y);
+        	gr.fillCircle(new jsColor("red"), position1, 4);
+    	} else {
+    		position1 = new jsPoint(x,y);
+        	gr.fillCircle(new jsColor("black"), position1, 4);
+    	}
+    	//gr.drawLine(new jsColor("blue"),position1) ㄱ dzdzㅇ
+    }
+   
+</script>
+
+</body>
+</html>
