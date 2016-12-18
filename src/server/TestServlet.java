@@ -27,7 +27,7 @@ public class TestServlet extends HttpServlet {
 		if(index>=19)
 			index=19;
 		for(int i=0;i<index;i++) {
-			sb.append(ServerSocketTest.coord[i]+",");
+			sb.append(ServerSocketTest.coord[i]+"^");
 		}
 		System.out.println(sb.toString());
 		response.getWriter().printf(index+"/"+sb.toString());
