@@ -88,20 +88,15 @@ html{
    						dataCount = data.split("/")[0];
    						data = data.split("/")[1];
    						maxPerson = data.split("^")[0].split(",")[0];
-   						//if(maxPerson==1)
    						
    						for(var i=1;i<=dataCount;i++) {
    							maxPerson = data.split("^")[i-1].split(",")[0];
 	   						for(var j=1;j<=maxPerson;j++) {
-	   							
 	   							x = data.split("^")[i-1].split(",")[3*j-1 ]; // 12n-10//12*j-12+2
 	   							y = data.split("^")[i-1].split(",")[3*j ]; //12n-9//12*j-12+3
-	   							//insertEventQueue(i,x,y,dataIndex++%maxData); // javascript에서의 Queue 조절할 때
 	   							insertEventQueue(i,x,y,j);
 	   						} // for문 종료.
    						}
-   						
-   						
    					} //if문 종료.
    			     } //success 종료.
    			});
@@ -128,6 +123,11 @@ html{
    						new jsPoint(eventQueueX3[interval] / 100.0 , eventQueueY3[interval] / 100.0)
    				);
    				drawCoordinate( 4 ,  eventQueueX4[interval] / 100.0 , eventQueueY4[interval] / 100.0 ) ;
+   				gr.drawLine(new jsPen(new jsColor("black")), 
+   						new jsPoint(eventQueueX4[interval-1]/100.0,eventQueueY4[interval-1]/100.0),
+   						new jsPoint(eventQueueX4[interval] / 100.0 , eventQueueY4[interval] / 100.0)	 
+   				);
+   				drawCoordinate( 5 ,  eventQueueX4[interval] / 100.0 , eventQueueY4[interval] / 100.0 ) ;
    				gr.drawLine(new jsPen(new jsColor("black")), 
    						new jsPoint(eventQueueX4[interval-1]/100.0,eventQueueY4[interval-1]/100.0),
    						new jsPoint(eventQueueX4[interval] / 100.0 , eventQueueY4[interval] / 100.0)	 
