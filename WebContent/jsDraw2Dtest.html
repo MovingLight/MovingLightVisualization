@@ -91,7 +91,7 @@ html{
    				type: "get",
    				success : function(data) {
    					if (data) {
-   						console.log(data);
+   						
    						dataCount = data.split("/")[0];
    						data = data.split("/")[1];
    						maxPerson = data.split("^")[0].split(",")[0];
@@ -135,12 +135,12 @@ html{
    						new jsPoint(eventQueueX4[interval] / 100.0 , eventQueueY4[interval] / 100.0)	 
    				);
    				drawCoordinate( 5 ,  eventQueueX5[interval] / 100.0 , eventQueueY5[interval] / 100.0 ) ;
-   				gr.drawLine(new jsPen(new jsColor("black")), 
+   				gr.drawLine(new jsPen(new jsColor("yellow")), 
    						new jsPoint(eventQueueX5[interval-1]/100.0,eventQueueY5[interval-1]/100.0),
    						new jsPoint(eventQueueX5[interval] / 100.0 , eventQueueY5[interval] / 100.0)	 
    				);
    				drawCoordinate( 6 ,  eventQueueX6[interval] / 100.0 , eventQueueY6[interval] / 100.0 ) ;
-   				gr.drawLine(new jsPen(new jsColor("black")), 
+   				gr.drawLine(new jsPen(new jsColor("navy")), 
    						new jsPoint(eventQueueX6[interval-1]/100.0,eventQueueY6[interval-1]/100.0),
    						new jsPoint(eventQueueX6[interval] / 100.0 , eventQueueY6[interval] / 100.0)	 
    				);
@@ -166,6 +166,14 @@ html{
 	    	case 4 :
 	    		eventQueueX4[index]= xv ;
 	    		eventQueueY4[index]= yv ;
+	    		break;
+	    	case 5 :
+	    		eventQueueX5[index]= xv ;
+	    		eventQueueY5[index]= yv ;
+	    		break;
+	    	case 6 :
+	    		eventQueueX6[index]= xv ;
+	    		eventQueueY6[index]= yv ;
 	    		break;
 	    	}
     	//documents.getElementsById("itemCountView").innerHTML(itemCountView);
@@ -198,9 +206,15 @@ html{
     	} else if ( id == 3 ) {
     		position1 = new jsPoint(x,y);
         	gr.fillCircle(new jsColor("red"), position1, 4);
-    	} else {
+    	} else if ( id == 4 ){
     		position1 = new jsPoint(x,y);
         	gr.fillCircle(new jsColor("black"), position1, 4);
+    	} else if ( id == 5 ){
+    		position1 = new jsPoint(x,y);
+        	gr.fillCircle(new jsColor("yellow"), position1, 4);
+    	} else if ( id == 6 ){
+    		position1 = new jsPoint(x,y);
+        	gr.fillCircle(new jsColor("navy"), position1, 4);
     	}
     	//gr.drawLine(new jsColor("blue"),position1) ㄱ dzdzㅇ
     }
