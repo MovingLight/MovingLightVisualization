@@ -24,12 +24,18 @@ public class TestServlet extends HttpServlet {
 		//response.getWriter().printf(CoordinateServerSocket.COORD + "");
 		StringBuilder sb = new StringBuilder();
 		int index = ServerSocketTest.index;
-		if(index>=19)
-			index=19;
-		for(int i=0;i<index;i++) {
-			sb.append(ServerSocketTest.coord[i]+"^");
+		if(index<20) {
+			for(int i=0;i<=index;i++) {
+				sb.append(ServerSocketTest.coord[i]+"^");
+			}
+			System.out.println(index);
+		} else if (index>=20) { // else로만 해줘도 되는데 명시적으로 조건을 적어줬어요.
+			for(int i=index-19;i<=index+1;i++) {
+				sb.append(ServerSocketTest.coord[i]+"^");
+			}
+			System.out.println(index);
 		}
-		System.out.println(index+"/"+sb);
+		//System.out.println(index+"/"+sb);
 		response.getWriter().printf(index+"/"+sb.toString());
 	}
 
