@@ -71,7 +71,7 @@ html{
 	var canvasWidth = $('#canvas').outerWidth(true);
 	
     //var realSize = prompt("가로/세로 값을 미터(m) 단위로 입력하세요.(가로/세로)", "");
-    var realSize='7/4';
+    var realSize='8/4';
     if (realSize != null) {
     	var input = realSize.split("/");
     	var canvasHeight = input[1] * canvasWidth / input[0];
@@ -96,7 +96,7 @@ html{
    						data = data.split("/")[1];
    						maxPerson = data.split("^")[0].split(",")[0];
    						
-   						for(var i=1;i<=dataCount;i++) {
+   						for(var i=1;i<=20;i++) {
    							maxPerson = data.split("^")[i-1].split(",")[0];
 	   						for(var j=1;j<=maxPerson;j++) {
 	   							x = data.split("^")[i-1].split(",")[3*j-1 ]; // 12n-10//12*j-12+2
@@ -125,7 +125,7 @@ html{
    						new jsPoint(eventQueueX2[interval] / 10.0 , eventQueueY2[interval] / 10.0)
    				);
    				drawCoordinate( 3 ,  eventQueueX3[interval] / 10.0 , eventQueueY3[interval] / 10.0 ) ;
-   				gr.drawLine(new jsPen(new jsColor("red")), 
+   				gr.drawLine(new jsPen(new jsColor("red")),
    						new jsPoint(eventQueueX3[interval-1]/10.0,eventQueueY3[interval-1]/10.0),
    						new jsPoint(eventQueueX3[interval] / 10.0 , eventQueueY3[interval] / 10.0)
    				);
