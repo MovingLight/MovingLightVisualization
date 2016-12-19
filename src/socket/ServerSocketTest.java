@@ -113,7 +113,7 @@ public class ServerSocketTest extends Thread {
 	        		//System.out.println("Index Before--"+index);
 	         		
 	         		COORD = sb.toString();
-		        	coord[index++%maxData]=COORD;
+		        	coord[index++]=COORD;
 		        	
 		        	System.out.println("Index--"+index);
 		        	System.out.println("DATA : " + COORD);

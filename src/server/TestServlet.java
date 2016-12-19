@@ -33,10 +33,12 @@ public class TestServlet extends HttpServlet {
 			for(int i=index-19;i<=index+1;i++) {
 				sb.append(ServerSocketTest.coord[i]+"^");
 			}
+			index=20;
 			//System.out.println(index);
 		}
+		
 		//System.out.println(index+"/"+sb);
-		response.getWriter().printf(index+"/"+sb.toString());
+		response.getWriter().printf(index+"/"+sb.toString().substring(0, sb.toString().length()-1));
 	}
 
 }
