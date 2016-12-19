@@ -24,13 +24,13 @@ public class TestServlet extends HttpServlet {
 		//response.getWriter().printf(CoordinateServerSocket.COORD + "");
 		StringBuilder sb = new StringBuilder();
 		int index = ServerSocketTest.index;
-		if(index<=20) {
-			for(int i=0;i<index;i++) {
+		if(index<20) {
+			for(int i=0;i<=index;i++) {
 				sb.append(ServerSocketTest.coord[i]+"^");
 			}
 			//System.out.println(index);
-		} else if (index>20) { // else濡쒕쭔 �빐以섎룄 �릺�뒗�뜲 紐낆떆�쟻�쑝濡� 議곌굔�쓣 �쟻�뼱以ъ뼱�슂.
-			for(int i=index-20;i<=index;i++) {
+		} else if (index>=20) { // else濡쒕쭔 �빐以섎룄 �릺�뒗�뜲 紐낆떆�쟻�쑝濡� 議곌굔�쓣 �쟻�뼱以ъ뼱�슂.
+			for(int i=index-19;i<=index+1;i++) {
 				sb.append(ServerSocketTest.coord[i]+"^");
 			}
 			//System.out.println(index);

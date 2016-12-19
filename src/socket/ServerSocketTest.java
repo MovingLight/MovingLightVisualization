@@ -18,7 +18,7 @@ public class ServerSocketTest extends Thread {
 	
 	private static int PORT = 5006;
 	public static String COORD;
-	public static String coord[] = new String[20];
+	public static String coord[] = new String[20000];
 	public static int maxData = 20;
 	public static int index=0;
 	static {
