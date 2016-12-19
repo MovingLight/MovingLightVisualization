@@ -18,7 +18,7 @@ public class ServerSocketTest extends Thread {
 	
 	private static int PORT = 5006;
 	public static String COORD;
-	public static String coord[] = new String[20000];
+	public static String coord[] = new String[20];
 	public static int maxData = 20;
 	public static int index=0;
 	static {
@@ -66,53 +66,89 @@ public class ServerSocketTest extends Thread {
 	    public void run() {
 	        try {
 	        	int read = -1; 
+	        	int inner = 0;
 	        	int cnt=0, person_num=0;
 	        	boolean isFirst = true;
-	         	sb = new StringBuilder(); // ClientSocket으로부터의 Data를 Append 하여 저장.  
+	         	sb = new StringBuilder(); // ClientSocket�쑝濡쒕��꽣�쓽 Data瑜� Append �븯�뿬 ���옣.  
 	        	DataInputStream dInput = new DataInputStream(clientSocket.getInputStream());
 	         	
-	        	// ClientSocket으로부터의 Data를 Integer(4 Bytes) 단위로 끊어 읽음
-	         	while( ( read = dInput.readInt()) != -1 ) {
+	        	// ClientSocket�쑝濡쒕��꽣�쓽 Data瑜� Integer(4 Bytes) �떒�쐞濡� �걡�뼱 �씫�쓬
+	         	//while( ( read = dInput.readInt()) != -1 ) {
+	        	while( true ) {
+	        		
+	        		read = dInput.readInt();
+	        		person_num = read; 
 	         		
-	         		// 첫번째 Data = 공연자 수
+         			sb.append(read);
+         			//continue;
+	        		
+	        		for(int i=0; i<read*3; i++) {
+	        			inner = dInput.readInt();
+	        			
+	        			sb.append(","+inner);
+	        			
+	        			//System.out.println("Inner Data : "  + sb);
+	        			
+	        			
+	        		}
+	        		
+	        		/*
 	         		if (isFirst) {
 	         			isFirst = !isFirst;
-	         			// 공연자 수 세팅
+	         		
 	         			person_num = read; 
-	         			// // ClientSocket으로부터의 공연자 수 Data를 Append.
+	         		
 	         			sb.append(read);
 	         			continue;
 	         		}
 	         		cnt++;
-	         		// 공연자 수 만큼 Data를 읽어왔을 경우, 더이상 읽지 않도록한다.  
+	         		  
 	         		if ( cnt > person_num*3 ) 
 	         			continue;
 	         		
-	         		// ClientSocket으로부터의 좌표값 Data를 Append.
-	         		sb.append(","+read);
+	         		// ClientSocket�쑝濡쒕��꽣�쓽 醫뚰몴媛� Data瑜� Append.
+	         		sb.append(","+read);*/
 	         		
+	         		//System.out.println("Out Data : "  +sb);
+	        		//System.out.println("Index Before--"+index);
+	         		
+	         		COORD = sb.toString();
+		        	coord[index++%maxData]=COORD;
+		        	
+		        	System.out.println("Index--"+index);
+		        	System.out.println("DATA : " + COORD);
+		        	
+		        	StaticValue.COORD_TIME = System.currentTimeMillis();
+		        	StaticValue.COORD_LIST.add(COORD);
+		        	
+		        	new Thread(new DBModule()).start();
+		        	
+		        	sb.delete(0, sb.length());
 	         	}
 	     
-	            isRunning=false;
-	            dInput.close();
+	         	
+	         	
+	            //isRunning=false;
+	            //dInput.close();
 	        } 
-	        // ClientSocket으로부터의 좌표 값 읽기 완료
+	        // ClientSocket�쑝濡쒕��꽣�쓽 醫뚰몴 媛� �씫湲� �셿猷�
 	        catch (EOFException e){
-	        	// COORD에 ClientSocket으로부터의 좌표 값 대입
-	        	COORD = sb.toString();
-	        	coord[index++]=COORD;
+	        	// COORD�뿉 ClientSocket�쑝濡쒕��꽣�쓽 醫뚰몴 媛� ���엯
 	        	
-	        	System.out.println("개수--"+index);
+	        	/*COORD = sb.toString();
+	        	coord[index++%maxData]=COORD;
+	        	
+	        	System.out.println("媛쒖닔--"+index);
 //	        	System.out.println("DATA : " + COORD);
 	        	
-	        	// ClientSocket으로부터의 좌표 값 도착시간
+	        	// ClientSocket�쑝濡쒕��꽣�쓽 醫뚰몴 媛� �룄李⑹떆媛�
 	        	StaticValue.COORD_TIME = System.currentTimeMillis();
-	        	// COORD_LIST에 ClientSocket으로부터의 좌표 값 Add
-	        	StaticValue.COORD_LIST.add(COORD);
+	        	// COORD_LIST�뿉 ClientSocket�쑝濡쒕��꽣�쓽 醫뚰몴 媛� Add
+	        	StaticValue.COORD_LIST.add(COORD);*/
 	        	
-	        	// ClientSocket으로부터의 좌표 값을
-	        	//  DB에 저장하는 Thread 동작
-	        	new Thread(new DBModule()).start();
+	        	// ClientSocket�쑝濡쒕��꽣�쓽 醫뚰몴 媛믪쓣
+	        	//  DB�뿉 ���옣�븯�뒗 Thread �룞�옉
+	        	//new Thread(new DBModule()).start();
 	        	
 	        } catch (Exception e) {
 	            e.printStackTrace();
