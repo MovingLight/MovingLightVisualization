@@ -38,7 +38,7 @@ public class TestServlet extends HttpServlet {
 		}
 		
 		//System.out.println(index+"/"+sb);
-		response.getWriter().printf(index+"/"+sb.toString().substring(0, sb.toString().length()-1));
+		response.getWriter().printf(index+"/"+sb.toString().substring(0, sb.toString().length()-6));
 	}
 
 }

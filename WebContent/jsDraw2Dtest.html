@@ -91,14 +91,17 @@ html{
    				type: "get",
    				success : function(data) {
    					if (data) {
+   						console.log("Data------"+data);
    						
    						dataCount = data.split("/")[0];
+   						console.log(dataCount);
    						data = data.split("/")[1];
-   						console.log(data);
-   						maxPerson = data.split("^")[0].split(",")[0];
    						
-   						for(var i=1;i<dataCount;i++) {
+   						//maxPerson = data.split("^")[0].split(",")[0];
+   						
+   						for(var i=1;i<=dataCount;i++) {
    							maxPerson = data.split("^")[i-1].split(",")[0];
+   							console.log(maxPerson);
 	   						for(var j=1;j<=maxPerson;j++) {
 	   							x = data.split("^")[i-1].split(",")[3*j-1 ]; // 12n-10//12*j-12+2
 	   							y = data.split("^")[i-1].split(",")[3*j ]; //12n-9//12*j-12+3
