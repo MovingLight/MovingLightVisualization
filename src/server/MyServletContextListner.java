@@ -59,13 +59,15 @@ public class MyServletContextListner implements ServletContextListener {
     	
     	try {
     		// Get home Dir path on your device.
-    		String sys = System.getProperty("user.home");
-        	PrintWriter pw = new PrintWriter(sys + "\\Desktop\\MovingLight\\logs\\VA_log_TEST_" + getTime() + ".txt");
-        	// LogFile Write from StaticValue.COORD_LIST
-        	for(String log : StaticValue.COORD_LIST) {
-        		pw.println(log);
-        	}
-        	pw.close();
+    		if(false ) {
+	    		String sys = System.getProperty("user.home");
+	        	PrintWriter pw = new PrintWriter(sys + "\\Desktop\\MovingLight\\logs\\VA_log_TEST_" + getTime() + ".txt");
+	        	// LogFile Write from StaticValue.COORD_LIST
+	        	for(String log : StaticValue.COORD_LIST) {
+	        		pw.println(log);
+	        	}
+	        	pw.close();
+    		}
         	
     	} catch (Exception e) {}
     }

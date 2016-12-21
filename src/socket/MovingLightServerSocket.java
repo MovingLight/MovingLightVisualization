@@ -66,6 +66,7 @@ public class MovingLightServerSocket extends Thread {
 	        	boolean isFirst = true;
 	         	sb = new StringBuilder();
 	        	DataInputStream dInput = new DataInputStream(clientSocket.getInputStream());
+	        	
 	         	int cnt = 0;
 	         	while( ( read = dInput.readInt()) != -1 ) {
 	         		if (isFirst) {
