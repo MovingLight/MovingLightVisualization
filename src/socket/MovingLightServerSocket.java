@@ -87,7 +87,6 @@ public class MovingLightServerSocket extends Thread {
 	            dInput.close();
 	        } catch (EOFException e){
 	        	COORD = sb.toString();
-	        	//log.writeLog(COORD);
 	        	System.out.println("Input : " + COORD);
 	        } catch (Exception e) {
 	            e.printStackTrace();
