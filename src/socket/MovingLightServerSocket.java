@@ -66,7 +66,6 @@ public class MovingLightServerSocket extends Thread {
 	        	boolean isFirst = true;
 	         	sb = new StringBuilder();
 	        	DataInputStream dInput = new DataInputStream(clientSocket.getInputStream());
-	        	
 	         	int cnt = 0;
 	         	while( ( read = dInput.readInt()) != -1 ) {
 	         		if (isFirst) {
@@ -88,7 +87,6 @@ public class MovingLightServerSocket extends Thread {
 	            dInput.close();
 	        } catch (EOFException e){
 	        	COORD = sb.toString();
-	        	//log.writeLog(COORD);
 	        	System.out.println("Input : " + COORD);
 	        } catch (Exception e) {
 	            e.printStackTrace();
