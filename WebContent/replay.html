@@ -84,6 +84,7 @@ html{
      //var grs=new jsGraphics(document.getElementById("canvas"));
      var dataCount=0;
      var dindex=1;
+     var replayIndex=0;
    	 var canvas = document.getElementById('mycanvas');
    		setInterval(function(){ 
    			$.ajax({
@@ -91,13 +92,17 @@ html{
    				type: "get",
    				success : function(data) {
    					if (data) {
+   						console.log("Data------"+data);
    						
    						dataCount = data.split("/")[0];
+   						console.log(dataCount);
    						data = data.split("/")[1];
-   						maxPerson = data.split("^")[0].split(",")[0];
+   						
+   						//maxPerson = data.split("^")[0].split(",")[0];
    						
    						for(var i=1;i<=dataCount;i++) {
    							maxPerson = data.split("^")[i-1].split(",")[0];
+   							console.log(maxPerson);
 	   						for(var j=1;j<=maxPerson;j++) {
 	   							x = data.split("^")[i-1].split(",")[3*j-1 ]; // 12n-10//12*j-12+2
 	   							y = data.split("^")[i-1].split(",")[3*j ]; //12n-9//12*j-12+3
@@ -115,47 +120,37 @@ html{
    					initCanvas( canvasWidth / 2 , canvasHeight / 2 , input[0]/2);
    				}
    				drawCoordinate( 1 ,  eventQueueX[interval] / 10.0 , eventQueueY[interval] / 10.0 ) ;
-   				drawCoordinate( 2 ,  eventQueueX2[interval] / 10.0 , eventQueueY2[interval] / 10.0 ) ;
-   				drawCoordinate( 3 ,  eventQueueX3[interval] / 10.0 , eventQueueY3[interval] / 10.0 ) ;
-   				drawCoordinate( 4 ,  eventQueueX4[interval] / 10.0 , eventQueueY4[interval] / 10.0 ) ;
-   				drawCoordinate( 5 ,  eventQueueX5[interval] / 10.0 , eventQueueY5[interval] / 10.0 ) ;
-   				drawCoordinate( 6 ,  eventQueueX6[interval] / 10.0 , eventQueueY6[interval] / 10.0 ) ;
-   				
-   				if (interval == 0) {
-   					continue;
-   				}
-   				
-   				gr.drawLine(new jsPen(new jsColor("blue"),2), 
+   				gr.drawLine(new jsPen(new jsColor("blue")), 
    						new jsPoint(eventQueueX[interval-1]/10.0,eventQueueY[interval-1]/10.0),
    						new jsPoint(eventQueueX[interval] / 10.0 , eventQueueY[interval] / 10.0)
    				);
-   				
-   				gr.drawLine(new jsPen(new jsColor("green"),2), 
+   				drawCoordinate( 2 ,  eventQueueX2[interval] / 10.0 , eventQueueY2[interval] / 10.0 ) ;
+   				gr.drawLine(new jsPen(new jsColor("green")), 
    						new jsPoint(eventQueueX2[interval-1]/10.0,eventQueueY2[interval-1]/10.0),
    						new jsPoint(eventQueueX2[interval] / 10.0 , eventQueueY2[interval] / 10.0)
    				);
-   				
-   				gr.drawLine(new jsPen(new jsColor("red"),2), 
+   				drawCoordinate( 3 ,  eventQueueX3[interval] / 10.0 , eventQueueY3[interval] / 10.0 ) ;
+   				gr.drawLine(new jsPen(new jsColor("red")),
    						new jsPoint(eventQueueX3[interval-1]/10.0,eventQueueY3[interval-1]/10.0),
    						new jsPoint(eventQueueX3[interval] / 10.0 , eventQueueY3[interval] / 10.0)
    				);
-   				
-   				gr.drawLine(new jsPen(new jsColor("black"),2), 
+   				drawCoordinate( 4 ,  eventQueueX4[interval] / 10.0 , eventQueueY4[interval] / 10.0 ) ;
+   				gr.drawLine(new jsPen(new jsColor("black")), 
    						new jsPoint(eventQueueX4[interval-1]/10.0,eventQueueY4[interval-1]/10.0),
    						new jsPoint(eventQueueX4[interval] / 10.0 , eventQueueY4[interval] / 10.0)	 
    				);
-   				
-   				gr.drawLine(new jsPen(new jsColor("yellow"),2), 
+   				drawCoordinate( 5 ,  eventQueueX5[interval] / 10.0 , eventQueueY5[interval] / 10.0 ) ;
+   				gr.drawLine(new jsPen(new jsColor("yellow")), 
    						new jsPoint(eventQueueX5[interval-1]/10.0,eventQueueY5[interval-1]/10.0),
    						new jsPoint(eventQueueX5[interval] / 10.0 , eventQueueY5[interval] / 10.0)	 
    				);
-   				
-   				gr.drawLine(new jsPen(new jsColor("navy"),2), 
+   				drawCoordinate( 6 ,  eventQueueX6[interval] / 10.0 , eventQueueY6[interval] / 10.0 ) ;
+   				gr.drawLine(new jsPen(new jsColor("navy")), 
    						new jsPoint(eventQueueX6[interval-1]/10.0,eventQueueY6[interval-1]/10.0),
    						new jsPoint(eventQueueX6[interval] / 10.0 , eventQueueY6[interval] / 10.0)	 
    				);
    			}
-   		},1000);
+   		},500);
     }
     function insertEventQueue(no , xv , yv ,index) { //dataIndex++%maxData
     	var pen = new jsPen(new jsColor("red"),1);
