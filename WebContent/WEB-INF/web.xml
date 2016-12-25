@@ -22,14 +22,15 @@
     <servlet-name>TestServlet</servlet-name>
     <url-pattern>/test</url-pattern>
   </servlet-mapping>
+  
   <servlet>
-    <description>replay.do</description>
+    <description>replay</description>
     <display-name>ReplayServlet</display-name>
     <servlet-name>ReplayServlet</servlet-name>
     <servlet-class>server.ReplayServlet</servlet-class>
   </servlet>
   <servlet-mapping>
     <servlet-name>ReplayServlet</servlet-name>
-    <url-pattern>/ReplayServlet</url-pattern>
+    <url-pattern>/replay</url-pattern>
   </servlet-mapping>
 </web-app>

@@ -53,6 +53,9 @@ public class MyServletContextListner implements ServletContextListener {
     	
     	// Insert the server START_TIME and TEST_ID to DataBase.
     	DBManager.getInstance().insertTest();
+    	
+    	// logFileOpen
+    	logfileOpen();
     }
     
     public void logfileWrite() {
@@ -69,6 +72,19 @@ public class MyServletContextListner implements ServletContextListener {
         	
     	} catch (Exception e) {}
     }
+    
+    public void logfileOpen() {
+    	
+    	try {
+    		// Get home Dir path on your device.
+    		String sys = System.getProperty("user.home");
+        	PrintWriter pw = new PrintWriter(sys + "\\Desktop\\MovingLight\\logs\\VA_log_TEST_" + getTime() + ".txt");
+        	// LogFile Write from StaticValue.COORD_LIST
+        	pw.close();
+        	
+    	} catch (Exception e) {}
+    }
+    
     
     public String getTime(){
         SimpleDateFormat f = new SimpleDateFormat("yyyyMMdd_HHmmss"); 

@@ -11,6 +11,8 @@ public class StaticValue {
 	public static Date START_TIME; 	// 테스트 시작시간
 	public static Date END_TIME; 	// 테스트 종료시간
 	
+	public static int replayIndex = 0;
+	
 	public StaticValue() {}
 	
 }

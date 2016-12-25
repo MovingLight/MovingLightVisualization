@@ -2,6 +2,7 @@ package socket;
 
 import java.io.DataInputStream;
 import java.io.EOFException;
+import java.io.PrintWriter;
 import java.net.ServerSocket;
 import java.net.Socket;
 import java.text.SimpleDateFormat;
@@ -9,6 +10,7 @@ import java.util.Date;
 
 
 import DB.DBModule;
+import server.ReplayServlet;
 
 public class ServerSocketTest extends Thread {
 	
@@ -64,6 +66,8 @@ public class ServerSocketTest extends Thread {
 	    }
 
 	    public void run() {
+	    	
+	    			
 	        try {
 	        	int read = -1; 
 	        	int inner = 0;
@@ -76,6 +80,11 @@ public class ServerSocketTest extends Thread {
 	         	//while( ( read = dInput.readInt()) != -1 ) {
 	        	while( true ) {
 	        		
+	        		//String sys = System.getProperty("user.home");
+	        		//PrintWriter pw = new PrintWriter(sys+"\\Desktop\\MovingLight\\logs\\VA_log_TEST_"+getTime()+".txt");
+	        		
+	        		//PrintWriter pw = new PrintWriter(sys+"\\Desktop\\MovingLight\\logs\\VA_log_TEST_20161221_114045.txt");
+	        			
 	        		read = dInput.readInt();
 	        		person_num = read; 
 	         		
@@ -85,35 +94,17 @@ public class ServerSocketTest extends Thread {
 	        		for(int i=0; i<read*3; i++) {
 	        			inner = dInput.readInt();
 	        			
-	        			sb.append(","+inner);
-	        			
-	        			//System.out.println("Inner Data : "  + sb);
-	        			
-	        			
+	        			sb.append(","+inner);	
 	        		}
-	        		
-	        		/*
-	         		if (isFirst) {
-	         			isFirst = !isFirst;
-	         		
-	         			person_num = read; 
-	         		
-	         			sb.append(read);
-	         			continue;
-	         		}
-	         		cnt++;
-	         		  
-	         		if ( cnt > person_num*3 ) 
-	         			continue;
-	         		
-	         		// ClientSocket�쑝濡쒕��꽣�쓽 醫뚰몴媛� Data瑜� Append.
-	         		sb.append(","+read);*/
-	         		
-	         		//System.out.println("Out Data : "  +sb);
-	        		//System.out.println("Index Before--"+index);
 	         		
 	         		COORD = sb.toString();
 		        	coord[index++]=COORD;
+		        	
+		        	
+		        	// 주석
+		        	ReplayServlet.coord[ReplayServlet.replayIndex++]=COORD;
+		        	
+		        	
 		        	
 		        	System.out.println("Index--"+index);
 		        	System.out.println("DATA : " + COORD);
@@ -123,6 +114,9 @@ public class ServerSocketTest extends Thread {
 		        	
 		        	new Thread(new DBModule()).start();
 		        	
+		        	//pw.append(COORD);
+	         		//pw.close();
+	         		
 		        	sb.delete(0, sb.length());
 	         	}
 	     
@@ -151,7 +145,7 @@ public class ServerSocketTest extends Thread {
 	        	//new Thread(new DBModule()).start();
 	        	
 	        } catch (Exception e) {
-	            e.printStackTrace();
+	            //e.printStackTrace();
 	        }
 	    }
 	}
